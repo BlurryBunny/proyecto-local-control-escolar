@@ -1,7 +1,7 @@
 <template>
     
     <tr class="mt-5 justify-content-center">
-        <td> {{ name }} </td>
+        <td> <div class="container-fluid"><span>{{ name }}</span></div> </td>
         <td class="justify-content-center" ><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Excelente"></form></td>
         <td class="justify-content-center"><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Bueno"></form></td>
         <td class="justify-content-center"><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Regular"></form></td>

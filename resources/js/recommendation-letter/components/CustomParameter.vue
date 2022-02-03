@@ -1,10 +1,22 @@
 <template>
-    <div>
-        <input type="text" class="form-control" v-model="Name">
-    <span>
-        <i class="fas fa-minus-circle" @click="remove(index)" ></i>
-    </span>
-    </div>
+<tr class=" justify-content-center pt-5" style="border:1px solid green">
+    <td class="col-11">
+        <div class=" d-flex align-items-center justify-content-center">
+            <input type="text" class="form-control" v-model="Name">
+            <span class=" align-items-center justify-content-center ml-5 mr-5">
+                
+                <i class="fas fa-minus-circle" style="width:25px; height:25px; color:red; border-radius: 50%" @click="remove(index)" ></i>
+            </span>
+            </div>
+    </td>
+
+        <td><form class="form-check align-items-center justify-content-center"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Bueno"></form></td>
+        <td><form class="form-check align-items-center justify-content-center"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Excelente"></form></td>
+        <td><form class="form-check align-items-center justify-content-center"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Regular"></form></td>
+        <td><form class="form-check align-items-center justify-content-center"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Deficiente"></form></td>
+    
+</tr>
+
 
 </template>
 
@@ -13,15 +25,18 @@
 export default {
     name: 'analysis-parameter',
 
-    props: {
-        index:{
-            type: Number,
-            default: null,
+    props: 
+    {
+        remove:{
+            type: Function
         },
         // Nombre del parámetro
         name: {
             type: String,
             default: null,
+        },
+        index:{
+            type:Number,
         },
     
         // Valor del parámetro
@@ -30,6 +45,7 @@ export default {
             default: null,
         },
 
+        
         //valuesRadioBtns: ['Excelente','Bueno','Regular','Deficiente']
     },
 
@@ -52,15 +68,7 @@ export default {
                 this.$emit('update:name',value)
             }
         }
-    },
-
-    methods: {
-        add(index) {
-            this.inputs.push({ name: '' });
-        },
-        remove(index) {
-            this.inputs.splice(index, 1);
-        }
     }
+
 }
 </script>
