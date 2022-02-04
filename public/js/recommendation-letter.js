@@ -238,26 +238,69 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'analysis-parameter',
+  name: "analysis-parameter",
   props: {
-    remove: {
-      type: Function
-    },
-    // Nombre del parámetro
-    name: {
-      type: String,
-      "default": null
-    },
     index: {
       type: Number
+    },
+    remove: {
+      type: Function
     },
     // Valor del parámetro
     score: {
       type: String,
       "default": null
-    } //valuesRadioBtns: ['Excelente','Bueno','Regular','Deficiente']
-
+    },
+    // Nombre del parámetro
+    name: {
+      type: String,
+      "default": null
+    }
   },
   computed: {
     // Devuelve o altera el nivel del parámetro.
@@ -266,7 +309,7 @@ __webpack_require__.r(__webpack_exports__);
         return this.score;
       },
       set: function set(value) {
-        this.$emit('update:score', value);
+        this.$emit("update:score", value);
       }
     },
     Name: {
@@ -274,7 +317,7 @@ __webpack_require__.r(__webpack_exports__);
         return this.name;
       },
       set: function set(value) {
-        this.$emit('update:name', value);
+        this.$emit("update:name", value);
       }
     }
   }
@@ -653,12 +696,12 @@ var render = function() {
       _c(
         "tbody",
         [
-          _vm._l(_vm.parameters, function(parameter, index) {
+          _vm._l(_vm.parameters, function(parameter) {
             return _c(
               "analysis-parameter",
               _vm._b(
                 {
-                  key: index,
+                  key: parameter.name,
                   attrs: { score: parameter.score },
                   on: {
                     "update:score": function($event) {
@@ -772,14 +815,14 @@ var render = function() {
   return _c(
     "tr",
     {
-      staticClass: " justify-content-center pt-5",
+      staticClass: "justify-content-center pt-5",
       staticStyle: { border: "1px solid green" }
     },
     [
       _c("td", { staticClass: "col-11" }, [
         _c(
           "div",
-          { staticClass: " d-flex align-items-center justify-content-center" },
+          { staticClass: "d-flex align-items-center justify-content-center" },
           [
             _c("input", {
               directives: [
@@ -807,7 +850,7 @@ var render = function() {
               "span",
               {
                 staticClass:
-                  " align-items-center justify-content-center ml-5 mr-5"
+                  "align-items-center justify-content-center ml-5 mr-5"
               },
               [
                 _c("i", {
@@ -846,7 +889,7 @@ var render = function() {
                   expression: "Score"
                 }
               ],
-              staticClass: "form-check-input ",
+              staticClass: "form-check-input",
               attrs: {
                 type: "radio",
                 name: "flexRadioDefault",
@@ -880,7 +923,7 @@ var render = function() {
                   expression: "Score"
                 }
               ],
-              staticClass: "form-check-input ",
+              staticClass: "form-check-input",
               attrs: {
                 type: "radio",
                 name: "flexRadioDefault",
@@ -914,7 +957,7 @@ var render = function() {
                   expression: "Score"
                 }
               ],
-              staticClass: "form-check-input ",
+              staticClass: "form-check-input",
               attrs: {
                 type: "radio",
                 name: "flexRadioDefault",
@@ -948,7 +991,7 @@ var render = function() {
                   expression: "Score"
                 }
               ],
-              staticClass: "form-check-input ",
+              staticClass: "form-check-input",
               attrs: {
                 type: "radio",
                 name: "flexRadioDefault",

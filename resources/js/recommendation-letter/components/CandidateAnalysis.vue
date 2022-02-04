@@ -12,8 +12,8 @@
       </thead>
       <tbody>
         <analysis-parameter
-          v-for="(parameter,index) in parameters"
-          :key="index"
+          v-for="parameter in parameters"
+          :key="parameter.name"
           v-bind="parameter"
           :score.sync="parameter.score"
         >
@@ -69,7 +69,6 @@ export default {
 
   
   props: {
-
     // Otros parámetros que se quieran especificar, para la carta
     // de recomendación.
     other_skills: {
