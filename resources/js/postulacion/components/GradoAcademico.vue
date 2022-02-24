@@ -1,5 +1,5 @@
 <template>
-  <div class="row my-3">
+  <div class="my-3 row">
     <div class="form-group col-12">
 
       <!-- 
@@ -104,8 +104,9 @@
         </div>
       </div>
       <!-- 
-        Pedir CVU, solo en maestría
+        Pedir CVU, solo en Doctorado
       -->
+      
       <div class="row" v-if="degree_type === 'Maestría'" >
         <div class="form-group col-md-4">
           <label> Número de CVU CONACYT: </label>
@@ -130,7 +131,6 @@
           </select>
         </div>
       </div>
-
       <!-- 
         Promedio del postulante
       -->
@@ -158,7 +158,9 @@
 
           <div v-if="'max_avg' in errores" class="invalid-feedback">{{errores.max_avg}}</div>
         </div>
+        
       </div>
+
     </div>
 
     <documento-requerido 
@@ -171,7 +173,7 @@
       @enviaDocumento = "cargaDocumento" >
     </documento-requerido>
 
-    <div class="col-12 my-3">
+    <div class="my-3 col-12">
       <button @click="agregaHistorialAcademico" class="btn btn-success"> Agregar </button>
       <button @click="actualizaHistorialAcademico" class="mx-2 btn btn-primary"> Guardar </button>
     </div>

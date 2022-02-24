@@ -1,11 +1,11 @@
 <template>
     
-    <tr class="mt-5 justify-content-center">
-        <td> <div class="container-fluid"><span>{{ name }}</span></div> </td>
-        <td class="justify-content-center" ><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Excelente"></form></td>
-        <td class="justify-content-center"><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Bueno"></form></td>
-        <td class="justify-content-center"><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Regular"></form></td>
-        <td class="justify-content-center"><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Deficiente"></form></td>
+    <tr class=" row pt-2 justify-content-center">
+        <td class="col-8 align-self-start"><span>{{ name }}</span> </td>
+        <td class="col-1 align-self-center"><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Excelente"></form></td>
+        <td class="col-1 align-self-center"><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Bueno"></form></td>
+        <td class="col-1 align-self-center"><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Regular"></form></td>
+        <td class="col-1 align-self-center"><form class="form-check"><input v-model="Score" class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="Deficiente"></form></td>
     </tr>
     
      

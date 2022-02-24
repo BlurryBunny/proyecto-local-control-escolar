@@ -1,47 +1,95 @@
 <template>
-  <div>
-    <table class="col-lg-12 candidate-analysis-table">
-      <thead>
-        <tr class="align-items-start">
-          <th>Parámetros</th>
-          <th>Excelente</th>
-          <th>Bueno</th>
-          <th>Regular</th>
-          <th>Deficiente</th>
-        </tr>
-      </thead>
-      <tbody>
-        <analysis-parameter
-          v-for="parameter in parameters"
-          :key="parameter.name"
-          v-bind="parameter"
-          :score.sync="parameter.score"
-        >
-        </analysis-parameter>
-        <custom-parameter
-          v-for="(parameter,index) in other_skills"
-          :key="index"
-          v-bind="parameter"
-          :remove="deleteCustomParameter"
-          :score.sync="parameter.score"
-          :name.sync="parameter.name"
-        >
-        </custom-parameter>
-      </tbody>
-      <!-- <div v-for ="parameter in parameters" :key ="parameter.name" class="mt-3">Selected: <strong>{{ parameter.score }}</strong></div> -->
-      <tfoot class="d-block">
-        
+  <div id="candidateAnalysis">
+    <!-- Title -->
+    <hr class="d-block" />
+    <h2>Análisis del candidato</h2>
 
-        <tr>
-          <td colspan="5">
-            <label class="d-block mt-3">Otra que desee especificar</label>
-            <button @click="addCustomParameter()" class="btn btn-primary">
-              Agregar otro parametro
-            </button>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+    <!-- 
+      Multiple options
+      Deficiente
+      Regular
+      Bueno
+      Excelente
+     -->
+    <div class="d-flex flex-column" id="multipleOptions-Analisys">
+      <table class="col-lg-12 candidate-analysis-table">
+        <thead>
+          <tr class="row align-items-start">
+            <th class="col-8">Parámetros</th>
+            <th class="col-1">Excelente</th>
+            <th class="col-1">Bueno</th>
+            <th class="col-1">Regular</th>
+            <th class="col-1">Deficiente</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- parametros definidos en formulario -->
+          <analysis-parameter
+            v-for="parameter in parameters"
+            :key="parameter.name"
+            v-bind="parameter"
+            :score.sync="parameter.score"
+          >
+            <!-- parametros propios por calificador -->
+          </analysis-parameter>
+          <hr class="d-block mt-3 mb-2" />
+          <custom-parameter
+            v-for="(parameter, index) in custom_parameters"
+            :key="index"
+            v-bind="parameter"
+            :remove="deleteCustomParameter(index)"
+            :score.sync="parameter.score"
+            :name.sync="parameter.name"
+          >
+          </custom-parameter>
+        </tbody>
+        <!-- <div v-for ="parameter in parameters" :key ="parameter.name" class="mt-3">Selected: <strong>{{ parameter.score }}</strong></div> -->
+
+        <!-- Agregar un paramero propio personalizado -->
+        <tfoot class="d-block">
+          <tr>
+            <td colspan="5">
+              <label class="d-block mt-3">Otra que desee especificar</label>
+              <button @click="addCustomParameter()" class="btn btn-primary">
+                Agregar otro parametro
+              </button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Inputs text  -->
+    <label class="mt-4">
+      Comente las habilidades y debilidades que usted desee destacar en el
+      candidato, especialmente en términos del rendimiento y desempeño en su
+      trabajo/escuela y en proyectos de investigación.
+    </label>
+    <textarea class="form-control" rows="4" v-model="specialSkills"></textarea>
+
+    <label class="mt-4">
+      En síntesis ¿Por qué recomienda al aspirante para ingresar al PMPCA?
+    </label>
+    <textarea
+      class="form-control"
+      rows="4"
+      v-model="whyRecommendation"
+    ></textarea>
+
+    <!-- Confirmacion de datos -->
+    <label class="mt-4">
+      <input type="checkbox" name="confirmation_form" />
+      Al guardar confirmo que esta información es exacta y veridica y autorizo
+      que sea utilizada en la evaluación del aspirante por el Comité Académico
+      del PMPCA.
+    </label>
+
+    <label
+      ><strong>Nota: </strong>&nbsp; Esta información es confidencial y no será
+      del conocimiento del candidato.</label
+    >
+
+    <hr class="d-block" />
   </div>
 </template>
 
@@ -57,33 +105,46 @@ export default {
     CustomParameter,
   },
 
-  methods: {
-    addCustomParameter() {
-      this.other_skills.push({ name: "", score: "" }); //agregar a la lista
-    },
+  computed: {
+    specialSkills: {
+      get() {
+        return this.special_skills;
+      },
 
-    deleteCustomParameter(index) {
-      delete this.other_skills[index];
-    },
-  },
-
-  
-  props: {
-    // Otros parámetros que se quieran especificar, para la carta
-    // de recomendación.
-    other_skills: {
-      type: Array,
-      default() {
-        return [
-          {
-            name: "",
-            score: "",
-          },
-        ];
+      set(value) {
+        this.$emit("update:special_skills", value);
       },
     },
 
-    // Parámetros para el análisis del candidato.
+    whyRecommendation: {
+      get() {
+        return this.why_recommendation;
+      },
+
+      set(value) {
+        this.$emit("update:why_recommendation", value);
+      },
+    },
+  },
+
+  methods: {
+    addCustomParameter() {
+      this.custom_parameters.push({ name: "", score: "" }); //agregar a la lista
+    },
+
+    deleteCustomParameter(index) {
+      this.custom_parameters.splice(index,1);
+    },
+  },
+
+  props: {
+    // Otros parámetros que se quieran especificar, para la carta
+    // de recomendación.
+
+    //parametros requeridos
+    special_skills: String,
+    why_recommendation: String,
+    //parametros definidos para el análisis del candidato.
     parameters: {
       type: Array,
       default() {
@@ -151,6 +212,49 @@ export default {
           {
             name: "Iniciativa propia",
             score: null,
+          },
+        ];
+      },
+    },
+    // parameters: {
+    //   type: Array,
+    //   default() {
+    //     return [
+    //       "Conocimiento y destrezas en su campo",
+    //       "Dedicación al trabajo",
+    //       "Imaginación y creatividad",
+    //       "Habilidad para comunicarse",
+    //       "Rendimiento",
+    //       "Perseverancia",
+    //       "Capacidad de convivencia con otras personas",
+    //       "Disciplina de estudio",
+    //       "Habilidad de investigación",
+    //       "Habilidades de comunicación oral y escrita",
+    //       "Hábitos de trabajo",
+    //       "Organización",
+    //       "Planificación",
+    //       "Oportunidad",
+    //       "Colaboración en equipo",
+    //       "Iniciativa propia",
+    //     ];
+    //   },
+    // },
+
+    // score_parameters: {
+    //   type:Array,
+    //   default(){
+
+    //   }
+    // },
+
+    //otros parametros
+    custom_parameters: {
+      type: Array,
+      default() {
+        return [
+          {
+            name: "",
+            score: "",
           },
         ];
       },

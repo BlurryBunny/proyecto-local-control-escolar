@@ -23,133 +23,157 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',function(){
-    return redirect("/controlescolar");
-});
+//Route::get('/',function(){return redirect("/controlescolar");});
+##COMENTAR ESTE GRUPO DE RUTAS
+Route::prefix('controlescolar')->group(function () {
 
-# Rutas de autenticacion.
-Route::prefix('/controlescolar/')->name('authenticate.')->group(function(){
+    # Rutas de autenticacion.
+    Route::name('authenticate.')->group(function(){
+        # Página principal.
+        Route::get('/home', [HomeController::class, 'index'])->name('home')
+            ->middleware('auth');
 
-    # Página principal.
-    Route::get('/home', [HomeController::class, 'index'])->name('home')
-    ->middleware('auth');
+        Route::get('/', [LoginController::class, 'prelogin'])->name('prelogin');
 
-    Route::get('/', [LoginController::class, 'prelogin'])->name('prelogin');
+        # Inicio de sesión por OAUTH2.
+        Route::get('/login', [LoginController::class, 'login'])->name('login')
+            ->middleware('guest');
 
-    # Inicio de sesión por OAUTH2.
-    Route::get('/login', [LoginController::class, 'login'])->name('login')
-    ->middleware('guest');
-});
-
-# Rutas para gestión de usuarios.
-Route::prefix('/controlescolar/users')->name('users.')->group(function(){
-
-    # Usuarios del sistema.
-    Route::get('/', [UserController::class, 'index'])->name('index');
-    Route::get('/appliants', [UserController::class, 'appliants'])->name('appliants');
-    Route::post('/show', [UserController::class, 'show'])->name('show');
-   
-    # Obtener usuario de mi portal.
-    Route::post('/miPortalUser', [PreRegisterController::class, 'miPortalUser'])->name('miPortalUser'); 
-});
-
-# Rutas para el pre-registro.
-Route::prefix('/controlescolar/pre-registro')->name('pre-registro.')->group(function(){
-    
-    # Obtención de datos
-    Route::get('/', [PreRegisterController::class, 'index'])->name('index');
-    Route::post('/', [PreRegisterController::class, 'store'])->name('store');
-});
-
-# Rutas de las solicitudes académicas.
-Route::prefix('/controlescolar/solicitud')->name('solicitud.')->middleware(['auth'])->group(function(){
-
-    # Expedientes
-    Route::get('/', [ArchiveController::class,'index'])->name('index');
-    Route::get('/archives', [ArchiveController::class,'archives'])->name('archives');
-    Route::get('/{archive}', [ArchiveController::class,'postulacion'])->name('show'); 
-
-    # Requisitos de ingreso.
-    Route::post('/updateMotivation', [ArchiveController::class, 'updateMotivation']); 
-    Route::post('/updateArchivePersonalDocument', [ArchiveController::class, 'updateArchivePersonalDocument']); 
-    Route::post('/updateArchiveEntranceDocument', [ArchiveController::class, 'updateArchiveEntranceDocument']); 
-    
-    # Grados académicos.
-    Route::get('/{archive}/latestAcademicDegree', [ArchiveController::class, 'latestAcademicDegree']);
-    Route::post('/updateAcademicDegree', [ArchiveController::class, 'updateAcademicDegree']);
-    Route::post('/updateAcademicDegreeRequiredDocument', [ArchiveController::class, 'updateAcademicDegreeRequiredDocument']);
-    
-    # Experiencia laboral.
-    Route::post('/updateWorkingExperience', [ArchiveController::class, 'updateWorkingExperience']);
-
-    # Lenguas extranjeras del postulante.
-    Route::post('/updateAppliantLanguage', [ArchiveController::class, 'updateAppliantLanguage']);
-    Route::post('/updateAppliantLanguageRequiredDocument', [ArchiveController::class, 'updateAppliantLanguageRequiredDocument']);
-
-    # Producciones científicas.
-    Route::post('/updateScientificProduction', [ArchiveController::class, 'updateScientificProduction']);
-    Route::post('/addScientificProductionAuthor', [ArchiveController::class, 'addScientificProductionAuthor']);
-    Route::post('/updateScientificProductionAuthor', [ArchiveController::class, 'updateScientificProductionAuthor']);
-
-    # Capital humano.
-    Route::post('/updateHumanCapital', [ArchiveController::class, 'updateHumanCapital']);
-
-    # Ver y descargar tipos de archivos.
-    Route::get('/archives/{archive}/{type}/{name}', [FileController::class, 'viewDocument'])->name('get');  
-});
-
-# Rutas para las entrevistas.
-Route::prefix('/controlescolar/entrevistas')->middleware(['auth', 'role:admin|control_escolar|profesor_nb'])->name('entrevistas.')->group(function(){
-
-    # Calendario
-    Route::get('calendario', [InterviewController::class, 'calendario'])->name('calendario');
-
-    # Programa de entrevistas
-    Route::get('programa', [InterviewController::class, 'programa'])->name('programa');
-
-    # Entrevistas.
-    Route::post('nuevaEntrevista', [InterviewController::class, 'nuevaEntrevista'])->name('nuevaEntrevista');
-    Route::post('confirmInterview', [InterviewController::class, 'confirmInterview'])->name('confirmInterview');
-    Route::post('reopenInterview', [InterviewController::class, 'reopenInterview'])->name('reopenInterview');
-    Route::post('deleteInterview', [InterviewController::class, 'deleteInterview'])->name('deleteInterview');
-
-    # Agregar y eliminar a los usuarios de una entrevista.
-    Route::post('interviewUser', [InterviewController::class, 'newInterviewUser'])->name('interviewUser');
-    Route::delete('interviewUser', [InterviewController::class, 'removeInterviewUser'])->name('interviewUserDelete');
-
-    # Rúbrica de evaluación
-    Route::prefix('rubrica')->name('rubrica.')->group(function(){
-        Route::get('/{evaluationRubric}', [EvaluationRubricController::class, 'show'])->name('show');
-        Route::put('/{evaluationRubric}', [EvaluationRubricController::class, 'update'])->name('update');
-        Route::delete('/{evaluationRubric}', [EvaluationRubricController::class, 'destroy'])->name('destroy');
+        Route::post('/register', [LoginController::class, 'register'])->name('register')
+            ->middleware('guest');
     });
 
-    # Periodods.
-    Route::apiResource('periods', PeriodController::class);
+    # Rutas de admin.
+    Route::get('prueba/{id}', [LoginController::class, 'testLogin']);
 
-    # Api de zoom.
-    Route::apiResource('zoom', ZoomController::class);
-});
+    Route::get('/logout',[Logincontroller::class,'logout'])->name('logout');
 
+    # Rutas para gestión de usuarios.
+    Route::prefix('users')->name('users.')->group(function(){
 
-# Rutas de admin.
-Route::prefix('/controlescolar/admin')->name('admin.')->group(function(){
+        # Usuarios del sistema.
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/appliants', [UserController::class, 'appliants'])->name('appliants');
+        Route::post('/show', [UserController::class, 'show'])->name('show');
 
-    # Vista de admin.
-    Route::get('/', [AdminController::class, 'index'])
-    ->name('index');
-
-    # Profesores
-    Route::get('workers', [AdminController::class, 'workers'])
-    ->name('workers');
+        # Obtener usuario de mi portal.
+        Route::post('/miPortalUser', [PreRegisterController::class, 'miPortalUser'])->name('miPortalUser');
+    });
     
-    Route::post('newWorker', [AdminController::class, 'newWorker'])
-    ->name('newWorker');
+
+    # Rutas para el pre-registro.
+    Route::prefix('pre-registro')->name('pre-registro.')->middleware('guest')->group(function(){
+
+        # Obtención de datos
+        Route::get('/', [PreRegisterController::class, 'index'])->name('index');
+        Route::post('/', [PreRegisterController::class, 'store'])->name('store');
+    });
+
+    # Rutas de las solicitudes académicas.
+    Route::prefix('solicitud')->name('solicitud.')->middleware(['auth'])->group(function(){
+
+        # Expedientes
+        Route::get('/', [ArchiveController::class,'index'])->middleware(['VerificarPostulante'])->name('index');
+        Route::get('/archives', [ArchiveController::class,'archives'])->name('archives');
+        Route::get('/{archive}', [ArchiveController::class,'postulacion'])->name('show');
+
+        # Requisitos de ingreso.
+        Route::post('/updateMotivation', [ArchiveController::class, 'updateMotivation']);
+        Route::post('/updateArchivePersonalDocument', [ArchiveController::class, 'updateArchivePersonalDocument']);
+        Route::post('/updateArchiveEntranceDocument', [ArchiveController::class, 'updateArchiveEntranceDocument']);
+
+        # Grados académicos.
+        Route::get('/{archive}/latestAcademicDegree', [ArchiveController::class, 'latestAcademicDegree']);
+        Route::post('/updateAcademicDegree', [ArchiveController::class, 'updateAcademicDegree']);
+        Route::post('/updateAcademicDegreeRequiredDocument', [ArchiveController::class, 'updateAcademicDegreeRequiredDocument']);
+
+        # Experiencia laboral.
+        Route::post('/updateWorkingExperience', [ArchiveController::class, 'updateWorkingExperience']);
+
+        # Lenguas extranjeras del postulante.
+        Route::post('/updateAppliantLanguage', [ArchiveController::class, 'updateAppliantLanguage']);
+        Route::post('/updateAppliantLanguageRequiredDocument', [ArchiveController::class, 'updateAppliantLanguageRequiredDocument']);
+
+        # Producciones científicas.
+        Route::post('/updateScientificProduction', [ArchiveController::class, 'updateScientificProduction']);
+        Route::post('/addScientificProductionAuthor', [ArchiveController::class, 'addScientificProductionAuthor']);
+        Route::post('/updateScientificProductionAuthor', [ArchiveController::class, 'updateScientificProductionAuthor']);
+
+        # Capital humano.
+        Route::post('/updateHumanCapital', [ArchiveController::class, 'updateHumanCapital']);
+
+        # Ver y descargar tipos de archivos.
+        Route::get('/archives/{archive}/{type}/{name}', [FileController::class, 'viewDocument'])->name('get');
+       
+        #Carta de recomendación {invitado-> referente hacia un postulante}
+        Route::post('/sentEmailRecommendationLetter/{email}/{appliant}', [ArchiveController::class, 'sentEmailRecommendationLetter']);
+
+    });
+
+    # Rutas para las entrevistas.
+    Route::prefix('entrevistas')->middleware(['auth', 'role:admin|control_escolar|profesor_nb'])->name('entrevistas.')->group(function(){
+
+        # Calendario
+        Route::get('calendario', [InterviewController::class, 'calendario'])->name('calendario');
+
+        # Programa de entrevistas
+        Route::get('programa', [InterviewController::class, 'programa'])->name('programa');
+
+        # Entrevistas.
+        Route::post('nuevaEntrevista', [InterviewController::class, 'nuevaEntrevista'])->name('nuevaEntrevista');
+        Route::post('confirmInterview', [InterviewController::class, 'confirmInterview'])->name('confirmInterview');
+        Route::post('reopenInterview', [InterviewController::class, 'reopenInterview'])->name('reopenInterview');
+        Route::post('deleteInterview', [InterviewController::class, 'deleteInterview'])->name('deleteInterview');
+
+        # Agregar y eliminar a los usuarios de una entrevista.
+        Route::post('interviewUser', [InterviewController::class, 'newInterviewUser'])->name('interviewUser');
+        Route::delete('interviewUser', [InterviewController::class, 'removeInterviewUser'])->name('interviewUserDelete');
+
+        # Rúbrica de evaluación
+        Route::prefix('rubrica')->name('rubrica.')->group(function(){
+            Route::get('/{evaluationRubric}', [EvaluationRubricController::class, 'show'])->name('show');
+            Route::put('/{evaluationRubric}', [EvaluationRubricController::class, 'update'])->name('update');
+            Route::delete('/{evaluationRubric}', [EvaluationRubricController::class, 'destroy'])->name('destroy');
+        });
+
+        # Periodods.
+        Route::apiResource('periods', PeriodController::class);
+
+        # Api de zoom.
+        Route::apiResource('zoom', ZoomController::class);
+    });
+
+
+    # Rutas de admin.
+    Route::prefix('admin')->name('admin.')->group(function(){
+
+        # Vista de admin.
+        Route::get('/', [AdminController::class, 'index'])
+        ->name('index');
+
+        # Profesores
+        Route::get('workers', [AdminController::class, 'workers'])
+        ->name('workers');
+
+        Route::post('newWorker', [AdminController::class, 'newWorker'])
+        ->name('newWorker');
+    });
+
+
+    //El usuario no necesita estar autentificado (puede ser cualquier persona con la liga)
+    Route::prefix('recommendationLetter')->name('recommendationLetter.')->group(function(){
+        # El que recive correo recibe la vista
+        Route::get('/{user_id}', [ArchiveController::class, 'recommendationLetter'])->name('recommendationLetter.show');
+        // Route::delete('/recommendationLetter/{id_rl}', [ArchiveController::class, 'deleteRecommendationLetter']) middleware(['auth', 'role:admin|control_escolar']) -> name('recommendationLetter.destroy');
+        
+        # Al guardar se hace la peticion para almacenar datos
+        Route::post('/addRecommendationLetter', [ArchiveController::class, 'addRecommendationLetter']);
+    });
+
+    //investigar para control de rutas lo siguiente
+    //policies 
+
+    //prueba de registro para comprobar que funciona control escolar
+    //convertir despues a log in con auth
+    Route::get('pruebaRegistro', [AdminController::class, 'pruebaRegistro']);
 });
-
-# Rutas de admin.
-Route::get('/controlescolar/prueba/{id}', [LoginController::class, 'testLogin']);
-
-
-# Vista de la carta de recomendación
-Route::view('recommendationLetter', 'postulacion.recommendation-letter');

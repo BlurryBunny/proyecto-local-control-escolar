@@ -11,6 +11,7 @@ const academicProgram = @json($academic_program);
     
 @section('container-class', 'class=container')
 @section('main')
+{{-- {{dd($appliant)}} --}}
 <form v-on:submit.prevent="actualizaSolicitud"> 
     <solicitud-postulante
         :archive_id="archive.id"
@@ -23,7 +24,10 @@ const academicProgram = @json($academic_program);
         :appliant_languages="archive.appliant_languages"
         :appliant_working_experiences="archive.appliant_working_experiences"
         :scientific_productions="archive.scientific_productions"
-        :human_capitals="archive.human_capitals">
+        :human_capitals="archive.human_capitals"
+        :recommendation_letters = "archive.myRecommendationLetter"
+        :archives_recommendation_letters = "archive.RecommendationLetter"
+        >
     </solicitud-postulante>
 </form>
 @endsection

@@ -4,18 +4,20 @@
     <div class="form-group col-12 mb-3">
       <h3 class="d-block mb-3"> ¿Eres miembro de la comunidad de Agenda Ambiental o perteneces a la UASLP? </h3>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="TipoUsuario" v-model="TipoUsuario" value="Comunidad AA">
+        <input class="form-check-input" type="radio" name="TipoUsuario" v-model="TipoUsuario" value="Comunidad AA" v-on:click="setPerteneceUASLP(true)">
         <label class="form-check-label"> Soy miembro de la comunidad de Agenda Ambiental </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="TipoUsuario" v-model="TipoUsuario" value="Comunidad UASLP">
+        <input class="form-check-input" type="radio" name="TipoUsuario" v-model="TipoUsuario" value="Comunidad UASLP" v-on:click="setPerteneceUASLP(true)">
         <label class="form-check-label"> No soy miembro de la comunidad de Agenda Ambiental, pero sí la UASLP </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="TipoUsuario" v-model="TipoUsuario" value="Ninguno">
-        <label class="form-check-label"> Ninguno de los anteriores </label>
+        <input class="form-check-input" type="radio" name="TipoUsuario" v-model="TipoUsuario" value="Ninguno" v-on:click="setPerteneceUASLP(false)">
+        <label class="form-check-label"> Ninguno de los anteriores (proximamente)</label>
       </div>
-      <div v-if="'tipo_usuario' in errores" class="invalid-feedback"> {{ errores.tipo_usuario }} </div>
+      <div v-if="'tipo_usuario' in errores" class="invalid-feedback">
+        {{ errores.tipo_usuario }}
+      </div>
     </div>
     <div class="col-12"></div>
 
@@ -77,28 +79,20 @@ export default {
   props: {
     // El usuario pertenece a la comunidad de agenda ambiental.
     tipo_usuario: String,
-
     // El usuario pertenece a la UASLP.
     pertenece_uaslp: Boolean,
-    
     // Facultad de adscripción del usuario.
     facultad: String,
-
     // Usuario de la UASLP.
     clave_uaslp: String,
-
     // Email de registro.
     email: String,
-
     // Email de registro alterno.
     email_alterno: String,
-
     // Contraseña de registro.
     password: String,
-
     // Confirmación de la contraseña.
     rpassword: String,
-
     // Errores.
     errores: Object,
   },
@@ -215,6 +209,9 @@ export default {
         'form-control': true,
         'is-invalid': model in this.errores
       }
+    },
+    setPerteneceUASLP(res){
+        this.PerteneceUaslp = res;
     }
   }
 };

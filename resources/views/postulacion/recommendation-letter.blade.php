@@ -1,85 +1,70 @@
+<script>
+    const idArchive = @json($idArchive);
+    const archiveRl = @json($archiveRl);
+    const appliant = @json($appliant);
+    const announcement = @json($announcement);
+    const parameters = @json($parameters);
+    const index = @json($index);
+    // console.log(archiveRl[num].id);
+    // console.log(num);
+    console.log(appliant.middlename);
+</script>
+
 @extends('layouts.app')
 
-@section('main-content')
-<main id="app" class="recommendation-letter">
-    <h1>Formulario de recomendación</h1>
-    <hr class="d-block">
-    <h2> Datos del candidato </h2>
+@section('main')
 
-    <div class="d-block d-lg-flex flex-lg-row justify-content-between">
-        <div class="d-block d-lg-inline-block">
-            <p class="mb-1"> Ulises feliz </p>
-            <p class="mb-1"> Chanchito feliz </p>
-            <p class="mb-3"> Chanchito feliz </p>
-            <p class="mb-1"> Chanchito feliz </p>
-            <p class="mb-1"> Chanchito feliz </p>
-        </div>
-        <div class="d-block d-lg-inline-block">
-            <p class="mb-1"> Chanchito feliz </p>
-            <p class="mb-1"> Chanchito feliz </p>
-            <p class="mb-1"> Chanchito feliz </p>
-        </div>
-        <div class="d-block d-lg-inline-block">
-            3 
-        </div>
-    </div>
+<div id="app" class="container recommendation-letter">
+    <data-candidate
+        :appliant = "appliant"
+        :announcement = "announcement"
+    ></data-candidate> 
+ 
+    {{-- <p>{{$rl->time_to_meet}}</p> --}}
+    {{-- Inicia form para actualizar carta --}}
+    <form  v-on:submit.prevent="actualizaRecomendationLetter"> 
+    {{-- informacion de relacion con el candidato --}}
+    <relationship-with-candidate
+        :archive_id = "archiveRl[index].id"
+        :time_to_know = "archiveRl[index].time_to_meet"
+        :how_meet = "archiveRl[index].how_meet"
+        :kind_relationship = "archiveRl[index].kind_relationship"
+        :experience_with_candidate = "archiveRl[index].experience_with_candidate"
+        :qualification_student = "archiveRl[index].qualification_student"
+    ></relationship-with-candidate> 
+    {{-- 
+        analisis del candidato, puntos importantes 
+        se incluye el pie de fondo
+        --}}
+    <candidate-analysis
+        :special_skills = "archiveRl[index].special_skills"
+        :why_recommendation = "archiveRl[index].why_recommendation"
+        {{-- 
+            se supone que tambien los parametros
+            parameters
+            --}}
+        :parameters = "parameters"
+        :custom_parameters = "custom_parameters"
+    ></candidate-analysis> 
 
-    <hr class="d-block">
-    <h2> Relación con el candidato </h2>
-    <div id="RelacionCandidato" class="d-block">
-        <div class="d-flex flex-column">
-            <label> ¿Desde cuándo conoce al candidato? </label>
-            <input id="FechaRelacion" type="date" class="form-control">
-
-            <label class="mt-4"> ¿Cómo lo conoció? </label>
-            <textarea class="form-control" rows="4"></textarea>
-
-            <label class="mt-4"> ¿Qué tipo de relación escolar, académica, laboral, etc. ha tenido el candidato con usted? </label>
-            <textarea class="form-control" rows="4"></textarea>
-
-            <label class="mt-4"> 
-                ¿El candidato ha trabajado, estudiado o desempeñado alguna tarea en colaboración o directamente para usted? 
-                Por favor describa la naturaleza de esas tareas 
-            </label>
-            <textarea class="form-control" rows="4"></textarea>
-
-            <label class="mt-4"> 
-                Si el estudiante tomó algún curso con usted ?n qué lugar quedó de acuerdo a su calificación final? 
-                (Por ejemplo: 30% superior) ¿Cuál es el número total de estudiantes que está considerando para el cálculo?
-            </label>
-            <textarea class="form-control" rows="4"></textarea>
-        </div>
-    </div>
-
-
-    <hr class="d-block">
-    <h2> Análisis del candidato </h2>
-    <div id="AnalisisCandidato" class="d-block">
-        <div class="d-flex flex-column">
-            <candidate-analysis></candidate-analysis>
-
-            <label class="mt-4"> 
-                Comente las habilidades y debilidades que usted desee destacar en el candidato, especialmente en términos
-                del rendimiento y desempeño en su trabajo/escuela y en proyectos de investigación.
-            </label>
-            <textarea class="form-control" rows="4"></textarea>
-
-            <label class="mt-4"> 
-                En síntesis ¿Por qué recomienda al aspirante para ingresar al PMPCA?
-            </label>
-            <textarea class="form-control" rows="4"></textarea>
-            <label class="mt-4"> 
-                <input type="checkbox">
-               Al guardar confirmo que esta información es exacta y veridica y autorizo que sea utilizada en la evaluación
-               del aspirante por el Comité Académico del PMPCA. 
-            </label>
-            <label ><strong>Nota: </strong>&nbsp; Esta información es confidencial y no será del conocimiento del candidato.</label>
-        </div>
-    </div>
-    <hr class="d-block">
-</main>
+    {{-- actualizar la informacion --}}
+    <div class="form-group row justify-content-end mt-5 mb-2 mr-2">
+        <div class="container">
+            <button type="submit" class="btn btn-primary">
+                Guardar
+            </button>
+        </div>   
+    </div> 
+   </form> 
+</div>
 @endsection
 
+<style scoped>
+    .titleSection{
+      color: #115089;
+      font-weight: bold; !important
+    }
+    </style>
 
 @push('scripts')
 <script src="{{ asset('js/recommendation-letter.js') }}" defer></script>

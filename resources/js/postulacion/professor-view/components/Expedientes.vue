@@ -71,6 +71,7 @@ export default {
       axios.get('/controlescolar/solicitud/archives')
       .then(response => {
         this.archives = response.data;
+      
       }).catch(error => {
         
       });

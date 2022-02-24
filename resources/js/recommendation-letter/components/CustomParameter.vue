@@ -1,6 +1,6 @@
 <template>
-  <tr class="justify-content-center pt-5" style="border: 1px solid green">
-    <td class="col-11">
+  <tr class="row pt-2 justify-content-center" >
+    <td class="col-8 align-self-start">
       <div class="d-flex align-items-center justify-content-center">
         <input type="text" class="form-control" v-model="Name" />
         <span class="align-items-center justify-content-center ml-5 mr-5">
@@ -13,7 +13,7 @@
       </div>
     </td>
 
-    <td>
+    <td class="col-1 align-self-center">
       <form class="form-check align-items-center justify-content-center">
         <input
           v-model="Score"
@@ -25,7 +25,7 @@
         />
       </form>
     </td>
-    <td>
+    <td class="col-1 align-self-center">
       <form class="form-check align-items-center justify-content-center">
         <input
           v-model="Score"
@@ -37,7 +37,7 @@
         />
       </form>
     </td>
-    <td>
+    <td class="col-1 align-self-center">
       <form class="form-check align-items-center justify-content-center">
         <input
           v-model="Score"
@@ -49,7 +49,7 @@
         />
       </form>
     </td>
-    <td>
+    <td class="col-1 align-self-center">
       <form class="form-check align-items-center justify-content-center">
         <input
           v-model="Score"
@@ -67,14 +67,14 @@
 
 <script>
 export default {
-  name: "analysis-parameter",
+  name: "custom-parameter",
 
   props: {
     index: {
       type: Number,
     },
     remove: {
-      type: Function,
+      type: Function
     },
 
     // Valor del parámetro

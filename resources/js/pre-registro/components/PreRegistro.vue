@@ -24,31 +24,33 @@
               @miPortalUserUpdated="miPortalUserUpdated">
             </crear-cuenta>
 
-            <!-- Datos generales -->
-            <datos-personales :errores="errores"
-              :tipo_usuario.sync="tipo_usuario"
-              :readonly="Readonly"
-              :countries="countries"
-              :curp.sync="curp"
-              :no_curp.sync="no_curp"
-              :name.sync="name"
-              :first_surname.sync="first_surname"
-              :last_surname.sync="last_surname"
-              :birth_date.sync="birth_date"
-              :ocupation.sync="ocupation"
-              :birth_country.sync="birth_country"
-              :birth_state.sync="birth_state"
-              :residence_country.sync="residence_country"
-              :gender.sync="gender"
-              :other_gender.sync="other_gender"
-              :civic_state.sync="civic_state"
-              :other_civic_state.sync="other_civic_state"
-              :zip_code.sync="zip_code"
-              :phone_number.sync="phone_number"
-              :ethnicity.sync="ethnicity"
-              :is_disabled.sync="is_disabled"
-              :disability.sync="disability">
-            </datos-personales>
+            <div v-if="tipo_usuario !== null && this.name !== 'Ninguno'">
+              <!-- Datos generals -->
+              <datos-personales :errores="errores"
+                 :tipo_usuario.sync="tipo_usuario"
+                 :readonly="Readonly"
+                 :countries="countries"
+                 :curp.sync="curp"
+                 :no_curp.sync="no_curp"
+                 :name.sync="name"
+                 :first_surname.sync="first_surname"
+                 :last_surname.sync="last_surname"
+                 :birth_date.sync="birth_date"
+                 :ocupation.sync="ocupation"
+                 :birth_country.sync="birth_country"
+                 :birth_state.sync="birth_state"
+                 :residence_country.sync="residence_country"
+                 :gender.sync="gender"
+                 :other_gender.sync="other_gender"
+                 :civic_state.sync="civic_state"
+                 :other_civic_state.sync="other_civic_state"
+                 :zip_code.sync="zip_code"
+                 :phone_number.sync="phone_number"
+                 :ethnicity.sync="ethnicity"
+                 :is_disabled.sync="is_disabled"
+                 :disability.sync="disability">
+              </datos-personales>
+            </div>
           </form>
         </div>
       </div>
@@ -78,7 +80,7 @@ export default {
       tipo_usuario: null,
       clave_uaslp: null,
       directorio_activo: null,
-      pertenece_uaslp: null,
+      pertenece_uaslp: false,
       facultad: null,
       email: null,
       email_alterno: null,
@@ -136,7 +138,7 @@ export default {
     },
 
     miPortalUserUpdated(user){
-      this.clave_uaslp = user.ClaveUASLP;
+      this.clave_uaslp = String(user.id);
       this.facultad = user.Dependencia;
       this.name = user.name;
       this.first_surname = user.middlename;
@@ -155,13 +157,13 @@ export default {
     registraUsuario(){
       this.errores = {};
       var formData = new FormData();
-      formData.append('clave_uaslp', this.clave_uaslp);
+      formData.append('announcement_id', this.academic_program.id);
+      formData.append('tipo_usuario', this.tipo_usuario);
+      formData.append('clave_uaslp', Number(this.clave_uaslp));
       formData.append('directorio_activo', this.directorio_activo);
       formData.append('pertenece_uaslp', this.pertenece_uaslp);
       formData.append('email', this.email);
       formData.append('email_alterno', this.email_alterno);
-      formData.append('password', this.password);
-      formData.append('rpassword', this.rpassword);
       formData.append('curp', this.curp);
       formData.append('no_curp', this.no_curp);
       formData.append('name', this.name);
@@ -181,23 +183,25 @@ export default {
       formData.append('ethnicity', this.ethnicity);
       formData.append('is_disabled', this.is_disabled);
       formData.append('disability', this.disability);
+      if(!this.pertenece_uaslp){
+        formData.append('password', this.password);
+        formData.append('rpassword', this.rpassword);
+      }
+      //console.log("formdata:" + formData);
 
       axios({
         method: 'post',
-        url: '/controlescolar/login',
+        url: '/controlescolar/pre-registro',
         data: formData,
         headers: {
           'Accept' : 'application/json',
           'Content-Type': 'multipart/form-data'
         }
       }).then(response => {
-        console.log(response);
+        console.log(response.data);
       }).catch(error => {
-        var errores = error.response.data['errors'];
-
-        Object.keys(errores).forEach(key => {
-          Vue.set(this.errores, key, errores[key][0]);
-        });
+        //alert(error.response.data);
+        console.log(error.response.data.errors);
       });
     }
   },
@@ -205,7 +209,7 @@ export default {
   mounted: function(){
         
     this.$nextTick(function () {
-
+    
       axios.get('https://ambiental.uaslp.mx/apiagenda/api/countries/states')
       .then(response => {
         this.countries = response.data;

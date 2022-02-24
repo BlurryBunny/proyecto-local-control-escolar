@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-12">
-      <h2 class="d-block my-5 font-weight-bold"> Datos Personales </h2>
+      <h2 class="my-5 d-block font-weight-bold"> Datos Personales </h2>
       <postulante 
         v-bind="appliant"
         :archive_id="archive_id"
@@ -10,9 +10,11 @@
       <hr class="d-block" :style="ColorStrip">
     </div>
   
-    
     <div class="col-12">
-      <h2 class="d-block my-5 font-weight-bold"> Historial académico </h2>
+    <details>
+    <summary>
+      <h2 class="mb-5 d-block font-weight-bold"> Historial académico </h2>
+    </summary>
       <grado-academico v-for="grado in academic_degrees"
         v-bind="grado"
         v-bind:key="grado.id"
@@ -33,19 +35,27 @@
         :paises="Countries"
         @gradoAcademicoAgregado="gradoAcademicoAgregado"> 
       </grado-academico>
-      <hr class="d-block my-4" :style="ColorStrip">
+    </details>
+      <hr class="my-4 d-block" :style="ColorStrip">
     </div>
 
-    <h2 class="col-12 my-4"><strong> Requisitos de ingreso </strong></h2>  
+  <details>
+    <summary>
+      <h2 class="my-4 col-12"><strong> Requisitos de ingreso </strong></h2> 
+    </summary>  
     <requisitos-ingreso
       :archive_id="archive_id"
       :motivation.sync="motivation"
       :documentos.sync="entrance_documents">
     </requisitos-ingreso>
-    <hr class="col-12 my-4" :style="ColorStrip">
+  </details> 
+    <hr class="my-4 col-12" :style="ColorStrip">
 
     <div class="col-12">
-      <h2 class="d-block my-4"><strong> Dominio de idiomas </strong></h2>
+      <details>
+        <summary>
+      <h2 class="my-4 d-block"><strong> Dominio de idiomas </strong></h2>
+      </summary>
       <lengua-extranjera v-for="language in appliant_languages"
         v-bind="language"
         v-bind:key="language.id"
@@ -62,11 +72,16 @@
         :writing_level.sync="language.writing_level"
         :documentos.sync="language.required_documents">
       </lengua-extranjera>
-      <hr class="d-block my-4" :style="ColorStrip">
+      </details>
+      <hr class="my-4 d-block" :style="ColorStrip">
     </div>
 
     <div class="col-12">
-      <h2 class="d-block my-4"><strong> Experiencia laboral </strong></h2>
+      <details>
+        <summary>
+          <h2 class="my-4 d-block"><strong> Experiencia laboral (Opcional) </strong></h2>
+        </summary>
+      
       <experiencia-laboral v-for="experience in appliant_working_experiences"
         v-bind="experience"
         v-bind:key="experience.id"
@@ -80,11 +95,15 @@
         :working_position_description.sync="experience.working_position_description"
         :achievements.sync="experience.achievements">
       </experiencia-laboral>
-      <hr class="d-block my-4" :style="ColorStrip">
+      </details>
+      <hr class="my-4 d-block" :style="ColorStrip">
     </div>
 
     <div class="col-12">
-      <h2 class="d-block my-4"><strong> Producción científica </strong></h2>
+      <details>
+        <summary>
+      <h2 class="my-4 d-block"><strong> Producción científica (Opcional)</strong></h2>
+      </summary>
       <produccion-cientifica v-for="production in scientific_productions"
         v-bind="production"
         v-bind:key="production.id"
@@ -97,11 +116,15 @@
         :institution.sync="production.institution"
         :post_title.sync="production.post_title">
       </produccion-cientifica>
-      <hr class="d-block my-4" :style="ColorStrip">
+    </details>
+      <hr class="my-4 d-block" :style="ColorStrip">
     </div>
 
     <div class="col-12">
-      <h2 class="d-block my-4"><strong> Capital humano (cursos impartidos) </strong></h2>
+      <details>
+        <summary>
+          <h2 class="my-4 d-block"><strong> Capital humano (cursos impartidos)[Opcional] </strong></h2>
+        </summary>
       <capital-humano v-for="humanCapital in human_capitals"
         v-bind="humanCapital"
         v-bind:key="humanCapital.id"
@@ -109,6 +132,20 @@
         :assisted_at.sync="humanCapital.assisted_at"
         :scolarship_level.sync="humanCapital.scolarship_level">
       </capital-humano>
+      </details>
+       <hr class="my-4 d-block" :style="ColorStrip">
+    </div>
+
+    <div class="col-12">
+      <details>
+        <summary>
+      <h2 class="my-4 d-block"><strong> Carta de recomendación </strong></h2>
+      </summary>
+      <carta-recomendacion 
+       :appliant = "appliant"
+      />
+    </details>
+      <hr class="my-4 d-block" :style="ColorStrip">
     </div>
   </div>
 </template>
@@ -122,6 +159,7 @@ import ProduccionCientifica from './ProduccionCientifica.vue';
 import ExperienciaLaboral from './ExperienciaLaboral.vue';
 import LenguaExtranjera from './LenguaExtranjera.vue';
 import RequisitosIngreso from './RequisitosIngreso.vue';
+import CartaRecomendacion from './CartaDeRecomendacion.vue';
 
 
 export default {
@@ -134,7 +172,8 @@ export default {
     ProduccionCientifica,
     ExperienciaLaboral,
     LenguaExtranjera,
-    RequisitosIngreso
+    RequisitosIngreso,
+    CartaRecomendacion
   },
 
   props: {
@@ -167,6 +206,12 @@ export default {
 
     // Capitales humanos del postulante.
     human_capitals: Array,
+
+    // carta de recomendación, solo nos interesa los correos y ver si ya estan subidos
+    recommendation_letters: Array,
+
+    // archivos de carta de recomendacion 
+    archive_recommendation_letter: Array,
 
     // Postulante de la solicitud.
     appliant: Object

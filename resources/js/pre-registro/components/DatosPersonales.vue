@@ -95,7 +95,7 @@
     <!-- País de nacimiento -->
     <div class="col-lg-6 mt-3">
       <label class="mt-3"> País de nacimiento </label>
-      <select v-model="BirthCountry" :class="inputClassFor('birth_country')" @change="escogePais" :readonly="Readonly" :disabled="Readonly">
+      <select v-model="BirthCountry" :class="inputClassFor('birth_country')"  @change="escogePais">
         <option value="" selected> Escoge un país </option>
         <option v-for="country in countries" :key="country.id" :value="country.name"> {{country.name}} </option>
       </select>
@@ -184,70 +184,48 @@ export default {
   props: {
     // Tipo usuario.
     tipo_usuario: String,
-
     // CURP.
     curp: String,
-
     // No tengo curp.
     no_curp: Boolean,
-
     // Nombres.
     name: String,
-
     // Primer apellido.
     first_surname: String,
-
     // Segundo apellido.
     last_surname: String,
-
     // País de residencia.
     residence_country: String,
-
     // Género.
     gender: String,
-
     // Otro género.
     other_gender: String,
-
     // Estado civil.
     civic_state: String,
-
     // Otro estado civil.
     other_civic_state: String,
-
     // Fecha de nacimiento.
     birth_date: String,
-
     // Ocupación.
     ocupation: String,
-
     // País de nacimiento.
     birth_country: String,
-
     // Estado de nacimiento.
     birth_state: String,
-
     // Código postal.
     zip_code: Number,
-
     // Teléfono de contacto.
     phone_number: Number,
-
     // Etnia del postulante.
     ethnicity: String,
-
     // El postulante está discapacitado.
     is_disabled: Boolean,
-
     // Discapacidad del postulante.
     disability: String,
-
     // Países.
     countries: Array,
-
     // Readonly.
     readonly: Boolean,
-
     // Errores
     errores: Object,
   },
