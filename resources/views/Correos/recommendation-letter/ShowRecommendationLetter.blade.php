@@ -1,12 +1,20 @@
 @component('mail::message')
-# Introduccion
 
-Accede a la carta de recomendacion
+# Estimado(a) Sr(a):
 
-@component('mail::button', ['url' => route('recommendationLetter.show',$user_id)])
-Ver carta de recomendacion
+Le enviamos un cordial saludo.
+Le escribimos de nuestro programa de "{{$academic_program['name']}}", debido a que nuestro postulante {{$appliant['name'] . ' ' .  $appliant['middlename'] . ' ' . $appliant['surname']}}, lo ha asignado a usted para otorgarle una carta de recomendación. Dicho documento es requisito indispensable para continuar con su proceso de admisión.
+
+Usted podrá otorgar su carta de recomendación
+
+@component('mail::button', ['url' => route('recommendationLetter.recommendationLetter.show',(int)$appliant['id']) ] )
+dando clic aquí
 @endcomponent
 
-Gracias,<br>
-{{ config('app.name') }}
+<br>
+Agradecemos su colaboración.
+
+Atentamente
+Control Escolar de Agenda Ambiental.
+<br>
 @endcomponent

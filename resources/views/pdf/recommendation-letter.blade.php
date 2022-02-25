@@ -43,8 +43,8 @@
             se supone que tambien los parametros
             parameters
             --}}
-        :score_parameters = "score_parameters"
-        :custom_parameteres = "custom_parameters"
+        :score_parameters = "parameters"
+        :custom_parameters = "custom_parameters"
     ></candidate-analysis> 
 
     {{-- actualizar la informacion --}}

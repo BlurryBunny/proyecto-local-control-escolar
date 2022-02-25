@@ -143,6 +143,8 @@
       </summary>
       <carta-recomendacion 
        :appliant = "appliant"
+       :academic_program = "academic_program"
+
       />
     </details>
       <hr class="my-4 d-block" :style="ColorStrip">
@@ -203,15 +205,16 @@ export default {
     
     // Producciones científicas del postulante.
     scientific_productions: Array,
+    
 
     // Capitales humanos del postulante.
     human_capitals: Array,
 
-    // carta de recomendación, solo nos interesa los correos y ver si ya estan subidos
-    recommendation_letters: Array,
+    // //archivos {id_archive_required_docuent, id_archive, location}
+    // archive_recommendation_letter:Array,
 
-    // archivos de carta de recomendacion 
-    archive_recommendation_letter: Array,
+    // //Cartas de recomendacion 
+    // recommendation_letter:Array,
 
     // Postulante de la solicitud.
     appliant: Object
@@ -278,3 +281,4 @@ export default {
   }
 };
 </script>
+

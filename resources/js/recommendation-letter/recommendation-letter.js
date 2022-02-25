@@ -103,7 +103,7 @@ const app = new Vue({
             },
         ],
         //otros parametros
-        custom_parameters:[
+        custom_parameters: [
                 {
                     name: "",
                     score: "",
@@ -133,7 +133,9 @@ const app = new Vue({
 
 
             axios.post('controlescolar/recommendationLetter/addRecommendationLetter', {
+                recommendation_letter_id: this.archiveRl.id, 
                 archive_id: this.idArchive,
+                email_evaluator: this.archiveRl.email_evaluator,
                 time_to_meet: this.archiveRl.time_to_meet,
                 how_meet: this.archiveRl.how_meet,
                 kind_relationship: this.archiveRl.kind_relationship,

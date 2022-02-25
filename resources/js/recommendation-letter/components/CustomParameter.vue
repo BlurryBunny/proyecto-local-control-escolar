@@ -73,6 +73,7 @@ export default {
     index: {
       type: Number,
     },
+    
     remove: {
       type: Function
     },

@@ -2,6 +2,7 @@
 const archiveModel = @json($archive); 
 const appliantModel = @json($appliant);
 const academicProgram = @json($academic_program);
+
 </script>
 @extends('layouts.app')
     
@@ -25,8 +26,7 @@ const academicProgram = @json($academic_program);
         :appliant_working_experiences="archive.appliant_working_experiences"
         :scientific_productions="archive.scientific_productions"
         :human_capitals="archive.human_capitals"
-        :recommendation_letters = "archive.myRecommendationLetter"
-        :archives_recommendation_letters = "archive.RecommendationLetter"
+
         >
     </solicitud-postulante>
 </form>

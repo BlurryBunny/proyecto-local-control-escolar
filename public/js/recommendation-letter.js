@@ -2216,6 +2216,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2248,9 +2249,13 @@ __webpack_require__.r(__webpack_exports__);
         name: "",
         score: ""
       }); //agregar a la lista
+
+      console.log(this.custom_parameters.length);
     },
     deleteCustomParameter: function deleteCustomParameter(index) {
-      this.custom_parameters.splice(index, 1);
+      console.log(index); // this.custom_parameters.splice(index,1);
+
+      this.$delete(this.custom_parameters, index);
     }
   },
   props: {
@@ -2314,34 +2319,6 @@ __webpack_require__.r(__webpack_exports__);
         }];
       }
     },
-    // parameters: {
-    //   type: Array,
-    //   default() {
-    //     return [
-    //       "Conocimiento y destrezas en su campo",
-    //       "Dedicación al trabajo",
-    //       "Imaginación y creatividad",
-    //       "Habilidad para comunicarse",
-    //       "Rendimiento",
-    //       "Perseverancia",
-    //       "Capacidad de convivencia con otras personas",
-    //       "Disciplina de estudio",
-    //       "Habilidad de investigación",
-    //       "Habilidades de comunicación oral y escrita",
-    //       "Hábitos de trabajo",
-    //       "Organización",
-    //       "Planificación",
-    //       "Oportunidad",
-    //       "Colaboración en equipo",
-    //       "Iniciativa propia",
-    //     ];
-    //   },
-    // },
-    // score_parameters: {
-    //   type:Array,
-    //   default(){
-    //   }
-    // },
     //otros parametros
     custom_parameters: {
       type: Array,
@@ -24920,7 +24897,8 @@ var render = function () {
                     {
                       key: index,
                       attrs: {
-                        remove: _vm.deleteCustomParameter(index),
+                        remove: _vm.deleteCustomParameter,
+                        index: index,
                         score: parameter.score,
                         name: parameter.name,
                       },
@@ -37938,7 +37916,9 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
       //     aux_score.push({index})
       // }
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('controlescolar/recommendationLetter/addRecommendationLetter', {
+        recommendation_letter_id: this.archiveRl.id,
         archive_id: this.idArchive,
+        email_evaluator: this.archiveRl.email_evaluator,
         time_to_meet: this.archiveRl.time_to_meet,
         how_meet: this.archiveRl.how_meet,
         kind_relationship: this.archiveRl.kind_relationship,

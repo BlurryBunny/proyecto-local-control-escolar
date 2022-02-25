@@ -101,6 +101,7 @@ class LoginController extends Controller
     }
 
     public function prelogin(){
+        //
         if(!Auth::user()){
             return redirect(route('pre-registro.index'));
         }
@@ -185,6 +186,22 @@ class LoginController extends Controller
         # Redirecciona a la página principal.
         return redirect()->route('authenticate.home');
     }
+        
+    //login depues del preregistro ->  se manda a llamar desde POST y recibe id_user
+    public function LoginPostPreRegister(Request $request, $user)
+    {
+        # Determina si se requiere solicitar autorización.
+        Auth::loginUsingId($user);
+        
+        /** @var User */
+        $user = Auth::user();
+        $user->load('roles');
+        $this->getUsers($request, $user);
+
+        # Redirecciona a la página principal.
+        return redirect()->route('authenticate.home');
+    }
+
 
     public function register(Request $request)
     {

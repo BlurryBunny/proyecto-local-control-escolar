@@ -905,6 +905,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -954,7 +973,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     Readonly: {
       get: function get() {
-        return this.tipo_usuario === 'Comunidad UASLP' || this.tipo_usuario === 'Comunidad AA';
+        return this.tipo_usuario === "Comunidad UASLP" || this.tipo_usuario === "Comunidad AA";
       }
     },
     AcademicProgram: {
@@ -962,7 +981,7 @@ __webpack_require__.r(__webpack_exports__);
         return this.academic_program;
       },
       set: function set(newValue) {
-        this.$emit('update:academic_program', newValue);
+        this.$emit("update:academic_program", newValue);
       }
     }
   },
@@ -974,8 +993,8 @@ __webpack_require__.r(__webpack_exports__);
       this.first_surname = user.first_surname;
       this.last_surname = user.last_surname;
       this.email = user.email;
-      this.birth_country = 'México';
-      this.residence_country = 'México';
+      this.birth_country = "México";
+      this.residence_country = "México";
     },
     miPortalUserUpdated: function miPortalUserUpdated(user) {
       this.clave_uaslp = String(user.id);
@@ -994,51 +1013,68 @@ __webpack_require__.r(__webpack_exports__);
       this.phone_number = Number(user.phone_number);
     },
     registraUsuario: function registraUsuario() {
+      var _this = this;
+
       this.errores = {};
       var formData = new FormData();
-      formData.append('announcement_id', this.academic_program.id);
-      formData.append('tipo_usuario', this.tipo_usuario);
-      formData.append('clave_uaslp', Number(this.clave_uaslp));
-      formData.append('directorio_activo', this.directorio_activo);
-      formData.append('pertenece_uaslp', this.pertenece_uaslp);
-      formData.append('email', this.email);
-      formData.append('email_alterno', this.email_alterno);
-      formData.append('curp', this.curp);
-      formData.append('no_curp', this.no_curp);
-      formData.append('name', this.name);
-      formData.append('first_surname', this.first_surname);
-      formData.append('last_surname', this.last_surname);
-      formData.append('birth_date', this.birth_date);
-      formData.append('ocupation', this.ocupation);
-      formData.append('gender', this.gender);
-      formData.append('other_gender', this.other_gender);
-      formData.append('civic_state', this.civic_state);
-      formData.append('other_civic_state', this.other_civic_state);
-      formData.append('birth_country', this.birth_country);
-      formData.append('birth_state', this.birth_state);
-      formData.append('residence_country', this.residence_country);
-      formData.append('zip_code', this.zip_code);
-      formData.append('phone_number', this.phone_number);
-      formData.append('ethnicity', this.ethnicity);
-      formData.append('is_disabled', this.is_disabled);
-      formData.append('disability', this.disability);
+      formData.append("announcement_id", this.academic_program.id);
+      formData.append("tipo_usuario", this.tipo_usuario);
+      formData.append("clave_uaslp", Number(this.clave_uaslp));
+      formData.append("directorio_activo", this.directorio_activo);
+      formData.append("pertenece_uaslp", this.pertenece_uaslp);
+      formData.append("email", this.email);
+      formData.append("email_alterno", this.email_alterno);
+      formData.append("curp", this.curp);
+      formData.append("no_curp", this.no_curp);
+      formData.append("name", this.name);
+      formData.append("first_surname", this.first_surname);
+      formData.append("last_surname", this.last_surname);
+      formData.append("birth_date", this.birth_date);
+      formData.append("ocupation", this.ocupation);
+      formData.append("gender", this.gender);
+      formData.append("other_gender", this.other_gender);
+      formData.append("civic_state", this.civic_state);
+      formData.append("other_civic_state", this.other_civic_state);
+      formData.append("birth_country", this.birth_country);
+      formData.append("birth_state", this.birth_state);
+      formData.append("residence_country", this.residence_country);
+      formData.append("zip_code", this.zip_code);
+      formData.append("phone_number", this.phone_number);
+      formData.append("ethnicity", this.ethnicity);
+      formData.append("is_disabled", this.is_disabled);
+      formData.append("disability", this.disability);
 
       if (!this.pertenece_uaslp) {
-        formData.append('password', this.password);
-        formData.append('rpassword', this.rpassword);
+        formData.append("password", this.password);
+        formData.append("rpassword", this.rpassword);
       } //console.log("formdata:" + formData);
 
 
       axios({
-        method: 'post',
-        url: '/controlescolar/pre-registro',
+        method: "post",
+        url: "/controlescolar/pre-registro",
         data: formData,
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'multipart/form-data'
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data"
         }
       }).then(function (response) {
-        console.log(response.data);
+        if (response.message === "Éxito") {
+          axios({
+            method: "post",
+            url: 'authenticate.login.post.preRegister',
+            data: _this.clave_uaslp,
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "multipart/form-data"
+            }
+          }).then(function (response) {
+            console.log(response.data);
+          })["catch"](function (error) {
+            //alert(error.response.data);
+            console.log(error.response.data.errors);
+          });
+        }
       })["catch"](function (error) {
         //alert(error.response.data);
         console.log(error.response.data.errors);
@@ -1047,10 +1083,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.$nextTick(function () {
-      var _this = this;
+      var _this2 = this;
 
-      axios.get('https://ambiental.uaslp.mx/apiagenda/api/countries/states').then(function (response) {
-        _this.countries = response.data;
+      axios.get("https://ambiental.uaslp.mx/apiagenda/api/countries/states").then(function (response) {
+        _this2.countries = response.data;
       });
     });
   }

@@ -49,4 +49,10 @@ const app = new Vue({
         // recommendation_letter: recommendation_letter,
         // archives_recommendation_letter: archives_recommendation_letter
     },
+
+    methods: {
+        actualizaSolicitud(){
+            // console.log('hola');
+        }
+    }
 });

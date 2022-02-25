@@ -37,7 +37,8 @@
             v-for="(parameter, index) in custom_parameters"
             :key="index"
             v-bind="parameter"
-            :remove="deleteCustomParameter(index)"
+            :remove="deleteCustomParameter"
+            :index = "index"
             :score.sync="parameter.score"
             :name.sync="parameter.name"
           >
@@ -130,10 +131,14 @@ export default {
   methods: {
     addCustomParameter() {
       this.custom_parameters.push({ name: "", score: "" }); //agregar a la lista
+      console.log(this.custom_parameters.length);
     },
 
     deleteCustomParameter(index) {
-      this.custom_parameters.splice(index,1);
+      console.log(index);
+      // this.custom_parameters.splice(index,1);
+
+      this.$delete(this.custom_parameters, index);
     },
   },
 
@@ -216,36 +221,6 @@ export default {
         ];
       },
     },
-    // parameters: {
-    //   type: Array,
-    //   default() {
-    //     return [
-    //       "Conocimiento y destrezas en su campo",
-    //       "Dedicación al trabajo",
-    //       "Imaginación y creatividad",
-    //       "Habilidad para comunicarse",
-    //       "Rendimiento",
-    //       "Perseverancia",
-    //       "Capacidad de convivencia con otras personas",
-    //       "Disciplina de estudio",
-    //       "Habilidad de investigación",
-    //       "Habilidades de comunicación oral y escrita",
-    //       "Hábitos de trabajo",
-    //       "Organización",
-    //       "Planificación",
-    //       "Oportunidad",
-    //       "Colaboración en equipo",
-    //       "Iniciativa propia",
-    //     ];
-    //   },
-    // },
-
-    // score_parameters: {
-    //   type:Array,
-    //   default(){
-
-    //   }
-    // },
 
     //otros parametros
     custom_parameters: {

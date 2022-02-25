@@ -25,7 +25,9 @@ class StoreRecommendationLetter extends FormRequest
     public function rules()
     {
         return [ 
+            'recommendation_letter_id' => ['required'],
             'archive_id' => ['required','exists:archives,id'],
+            'email_evaluator'=>['required','email','max:255'],
             'time_to_meet' => ['required', 'string', 'max:255'],
             'how_meet' => ['required', 'string', 'max:255'],
             'kind_relationship' => ['required', 'string', 'max:255'],

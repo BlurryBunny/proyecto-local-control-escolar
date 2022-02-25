@@ -108,7 +108,7 @@ class CreateRecommendationLetterTable extends Migration
 
                 //relacion hacia documentos requeridos
             $table->foreignId('required_document_id')
-                ->constrained('achive_required_document')
+                ->constrained('archive_required_document')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 

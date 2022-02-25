@@ -120,11 +120,11 @@ class Archive extends Model
      */
     public function recommendationLetter(): HasManyThrough
     {
-        return $this->hasManyThrough(RecommendationLetter::class, ArchiveRequiredDocument::class);
+        return $this->hasManyThrough(RecommendationLetter::class, ArchiveRequiredDocument::class, 'archive_id', 'required_document_id');
     }
 
 
-    /**
+    /**1
      * Obtiene los documentos requeridos para el ingreso del
      * postulante, al programa académico.
      *

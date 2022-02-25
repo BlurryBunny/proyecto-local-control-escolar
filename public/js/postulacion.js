@@ -168,114 +168,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "carta-recomendacion",
+  data: function data() {
+    return {
+      emails: [{
+        email: "example@example.com"
+      }, {
+        email: "example@example.com"
+      }]
+    };
+  },
   props: {
     //Cartas de recomendacion (tabla a rellenar)
     //Aqui se cambian los correos
     appliant: {
       type: Object
     },
-    recommendation_letters: {
-      type: Array,
-      "default": [{
-        email_evaluator: null
-      }, {
-        email_evaluator: null
-      }]
+    academic_program: {
+      type: Object
     },
-    //archivos de carta de recomendacion (contiene el id de carta y locacion para ver si es ciert que guardo)
-    archives_recommendation_letter: {
-      type: Array,
-      "default": [{
-        rl_id: null
-      }, {
-        rl_id: null
-      }]
-    },
-    // emails: {
+    //recibe los emails de la carta de recomendacion como en un arreglo para comparar
+    recommendation_letter: {
+      type: Object
+    } // recommendation_letters: {
     //   type: Array,
-    //   default: ["example@example.com", "example@example.com"],
+    //   default: [
+    //     {
+    //       email_evaluator: null,
+    //     },
+    //     {
+    //       email_evaluator: null,
+    //     },
+    //   ],
     // },
-    email1: {
-      type: String,
-      "default": ""
-    },
-    email2: {
-      type: String,
-      "default": ""
-    }
+    // //archivos de carta de recomendacion (contiene el id de carta y locacion para ver si es ciert que guardo)
+    // archives_recommendation_letter: {
+    //   type: Array,
+    //   default: [
+    //     {
+    //       rl_id: null,
+    //     },
+    //     {
+    //       rl_id: null,
+    //     },
+    //   ],
+    // },
+
   },
   methods: {
     // checkUpload(id_rl) {
@@ -289,36 +228,27 @@ __webpack_require__.r(__webpack_exports__);
     checkUpload: function checkUpload() {
       return true;
     },
-    // actualizaCorreosCartaRecomendacion(evento) {
-    //   this.errores = {};
-    //   axios
-    //     .post("/controlescolar/postulacion/updateMailRecommendationLetter", {
-    //       id: this.id,
-    //       archive_id: this.archive_id,
-    //       state: estado,
-    //       course_name: this.course_name,
-    //       assisted_at: this.assisted_at,
-    //       scolarship_level: this.scolarship_level,
-    //     })
-    //     .then((response) => {
-    //       Object.keys(response.data).forEach((dataKey) => {
-    //         var event = "update:" + dataKey;
-    //         this.$emit(event, response.data[dataKey]);
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       this.State = "Incompleto";
-    //       var errores = error.response.data["errors"];
-    //       Object.keys(errores).forEach((key) => {
-    //         Vue.set(this.errores, key, errores[key][0]);
-    //       });
-    //     });
-    // },
-    enviarCorreoCartaRecomendacion: function enviarCorreoCartaRecomendacion(email) {
-      //validacion de datos
-      axios.post("/controlescolar/postulacion/sentEmailRecommendationLetter", email, this.appliant); //enviar correo
+    enviarCorreoCartaRecomendacion: function enviarCorreoCartaRecomendacion(my_email) {
+      // let res = false;
+      // // El email que inserto el usuario esta repetido o ya se envio carta de recomendacion
+      // for ( rl in this.recommendation_letter){
+      //   if(rl.email_evaluator === my_email.email){
+      //       res = true;  
+      //   }
+      // }
+      console.log(my_email); // //cadena no es similar a las existentes o  es nueva | INSERTAR
+      // if(!res){
 
-      this.enviaExperienciaLaboral(evento, "Completo");
+      axios.post("/controlescolar/solicitud/sentEmailRecommendationLetter", {
+        email: my_email,
+        appliant: this.appliant,
+        recommendation_letter: this.recommendation_letter,
+        academic_program: this.academic_program
+      }).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error.response.data);
+      }); // }
     }
   }
 });
@@ -2596,6 +2526,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2637,10 +2569,10 @@ __webpack_require__.r(__webpack_exports__);
     scientific_productions: Array,
     // Capitales humanos del postulante.
     human_capitals: Array,
-    // carta de recomendación, solo nos interesa los correos y ver si ya estan subidos
-    recommendation_letters: Array,
-    // archivos de carta de recomendacion 
-    archive_recommendation_letter: Array,
+    // //archivos {id_archive_required_docuent, id_archive, location}
+    // archive_recommendation_letter:Array,
+    // //Cartas de recomendacion 
+    // recommendation_letter:Array,
     // Postulante de la solicitud.
     appliant: Object
   },
@@ -5376,30 +5308,32 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "row" }, [
-      _c(
+  return _c(
+    "div",
+    { staticClass: "row m-1" },
+    _vm._l(_vm.emails, function (my_email) {
+      return _c(
         "div",
-        { staticClass: "form-group col-5" },
+        { staticClass: "form-group col-md-5" },
         [
           _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.email1,
-                expression: "email1",
+                value: my_email.email,
+                expression: "my_email.email",
               },
             ],
             staticClass: "form-control mb-2",
             attrs: { type: "text" },
-            domProps: { value: _vm.email1 },
+            domProps: { value: my_email.email },
             on: {
               input: function ($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.email1 = $event.target.value
+                _vm.$set(my_email, "email", $event.target.value)
               },
             },
           }),
@@ -5420,86 +5354,28 @@ var render = function () {
                 ]),
               ],
           _vm._v(" "),
-          _vm._m(0),
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "form-group col-5" },
-        [
-          _c("input", {
-            directives: [
+          _c("div", { staticClass: "form-group col-5 mt-3" }, [
+            _c(
+              "button",
               {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.email2,
-                expression: "email2",
+                staticClass: "btn btn-primary",
+                on: {
+                  click: function ($event) {
+                    return _vm.enviarCorreoCartaRecomendacion(my_email.email)
+                  },
+                },
               },
-            ],
-            staticClass: "form-control mb-2",
-            attrs: { type: "text" },
-            domProps: { value: _vm.email2 },
-            on: {
-              input: function ($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.email2 = $event.target.value
-              },
-            },
-          }),
-          _vm._v(" "),
-          _vm.checkUpload()
-            ? [
-                _c("i", [_vm._v("Estado:")]),
-                _vm._v(" "),
-                _c("i", { staticClass: "text-success" }, [
-                  _vm._v("Completado"),
-                ]),
-              ]
-            : [
-                _c("i", [_vm._v("Estado:")]),
-                _vm._v(" "),
-                _c("i", { staticClass: "text-danger" }, [
-                  _vm._v("Sin completar"),
-                ]),
-              ],
-          _vm._v(" "),
-          _vm._m(1),
+              [_vm._v("\n        Enviar correo\n      ")]
+            ),
+          ]),
         ],
         2
-      ),
-    ]),
-  ])
+      )
+    }),
+    0
+  )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group col-5 mt-3" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Enviar correo")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group col-5 mt-3" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Enviar correo")]
-      ),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -9025,7 +8901,12 @@ var render = function () {
         [
           _vm._m(6),
           _vm._v(" "),
-          _c("carta-recomendacion", { attrs: { appliant: _vm.appliant } }),
+          _c("carta-recomendacion", {
+            attrs: {
+              appliant: _vm.appliant,
+              academic_program: _vm.academic_program,
+            },
+          }),
         ],
         1
       ),
@@ -22192,6 +22073,10 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_10__["default"]({
     academic_program: academicProgram // recommendation_letter: recommendation_letter,
     // archives_recommendation_letter: archives_recommendation_letter
 
+  },
+  methods: {
+    actualizaSolicitud: function actualizaSolicitud() {// console.log('hola');
+    }
   }
 });
 })();
