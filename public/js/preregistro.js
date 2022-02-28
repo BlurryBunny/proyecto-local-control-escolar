@@ -1062,11 +1062,11 @@ __webpack_require__.r(__webpack_exports__);
         if (response.message === "Éxito") {
           axios({
             method: "post",
-            url: 'authenticate.login.post.preRegister',
+            url: route('authenticate.login.post.preRegister'),
             data: _this.clave_uaslp,
             headers: {
               Accept: "application/json",
-              "Content-Type": "multipart/form-data"
+              "Content-Type": "mu ltipart/form-data"
             }
           }).then(function (response) {
             console.log(response.data);

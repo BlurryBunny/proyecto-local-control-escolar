@@ -3,46 +3,87 @@
           Si corresponde entonces se ha realizado 
           Si no entonces esta pendiente
          -->
-  <div class="row m-1">
-    <div
-      class="form-group col-md-5"
-      v-for="my_email in emails"
-    >
-      <input
-        type="text"
-        class="form-control mb-2"
-        v-model="my_email.email"
-        
-      />
+  <div class="container mt-2">
 
-      <template v-if="checkUpload()">
-        <i>Estado:</i> <i class="text-success">Completado</i>
-      </template>
-      <template v-else>
-        <i>Estado:</i> <i class="text-danger">Sin completar</i>
-      </template>
-      <div class="form-group col-5 mt-3">
-        <button
-          @click="enviarCorreoCartaRecomendacion(my_email.email)"
-          class="btn btn-primary"
+    <!-- CASO 1 -->
+    <!-- No existen cartas de recomendacion se crearan por primera vez -->
+    <div class="row" v-if="sizeRecommendationLetter() == 0">
+      <!-- Recorre la lista de correos de ejemplo, el usuario debera confirmar al aceptar -->
+      <div
+        class="form-group col-md-5 m-2 d-flex"
+        v-for="(my_email, index) in emails"
+        :key="index" 
+      >
+
+      <!-- No existe carta de recomendacion pero se creara -->
+        <valida-carta-recomendacion
+          :email = "my_email.email"
+          :appliant = "appliant"
+          :academic_program = "academic_program"
         >
-          Enviar correo
-        </button>
+        </valida-carta-recomendacion>
         
+      </div>
+    </div>
+
+
+    <!-- CASO 3 -->
+    <!-- Ya existen dos correos registrados para carta de recomendacion  -->
+    <div class="row" v-else>
+      <div
+        class="form-group col-md-5 d-flex"
+        v-for="(rl, index) in recommendation_letters"
+        :key="index"
+        
+      >
+       
+        
+        <!-- Se comprueba el estado de las dos cartas / Se pueden modificar campos aun -->
+       <valida-carta-recomendacion
+          :email = "rl.email_evaluator"
+          :recommendation_letter = "recommendation_letters[index]"
+          :archive_recommendation_letter="archives_recommendation_letters[index]"
+          :appliant = "appliant"
+          :academic_program = "academic_program"
+        >
+        </valida-carta-recomendacion>
+
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
+
+import ValidaCartaRecomendacion from './ValidaCartaRecomendacion.vue';
+
 export default {
   name: "carta-recomendacion",
 
+  components:{
+    ValidaCartaRecomendacion,
+  },
+
   data() {
     return {
-      emails: [{email: "example@example.com"}, {email: "example@example.com"}]
+      emails: [
+        { email: "example@example.com" },
+        { email: "example@example.com" },
+      ],
     };
+  },
+
+  methods:{
+
+    toString(rl){
+        console.log(rl);
+    },
+
+    sizeRecommendationLetter() {
+      console.log('archivos' + this.archives_recommendation_letters.length);
+      console.log('cartas' + this.recommendation_letters.length);
+        return this.recommendation_letters.length;
+    },
   },
 
   props: {
@@ -58,83 +99,14 @@ export default {
     },
 
     //recibe los emails de la carta de recomendacion como en un arreglo para comparar
-    recommendation_letter:{
-      type: Object,
-    }
-
-    // recommendation_letters: {
-    //   type: Array,
-    //   default: [
-    //     {
-    //       email_evaluator: null,
-    //     },
-    //     {
-    //       email_evaluator: null,
-    //     },
-    //   ],
-    // },
-
-    // //archivos de carta de recomendacion (contiene el id de carta y locacion para ver si es ciert que guardo)
-    // archives_recommendation_letter: {
-    //   type: Array,
-    //   default: [
-    //     {
-    //       rl_id: null,
-    //     },
-    //     {
-    //       rl_id: null,
-    //     },
-    //   ],
-    // },
-  },
-
-  methods: {
-    // checkUpload(id_rl) {
-    //   for (archives in archives_recommendation_letter) {
-    //     if (id_rl === archives.rl_id) {
-    //       return true;
-    //     }
-    //   }
-    //   return false;
-    // },
-
-    checkUpload() {
-      return true;
+    recommendation_letters: {
+      type: Array,
     },
 
-    enviarCorreoCartaRecomendacion(my_email) {
-
-      // let res = false;
-
-      // // El email que inserto el usuario esta repetido o ya se envio carta de recomendacion
-      // for ( rl in this.recommendation_letter){
-      //   if(rl.email_evaluator === my_email.email){
-      //       res = true;  
-      //   }
-      // }
-
-
-      console.log(my_email);
-      
-      // //cadena no es similar a las existentes o  es nueva | INSERTAR
-      // if(!res){
-      axios.post(
-          "/controlescolar/solicitud/sentEmailRecommendationLetter",{
-            email:my_email,
-            appliant: this.appliant,
-            recommendation_letter: this.recommendation_letter,
-            academic_program: this.academic_program,
-          }
-        )
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-      // }
-      
+    archives_recommendation_letters: {
+      type: Array,
     },
   },
+
 };
 </script>

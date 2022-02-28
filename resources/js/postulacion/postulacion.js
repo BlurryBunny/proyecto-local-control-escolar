@@ -46,8 +46,8 @@ const app = new Vue({
         archive: archiveModel,
         appliant: appliantModel,
         academic_program: academicProgram,
-        // recommendation_letter: recommendation_letter,
-        // archives_recommendation_letter: archives_recommendation_letter
+        recommendation_letters: recommendation_letters,
+        archives_recommendation_letters: archives_recommendation_letters
     },
 
     methods: {

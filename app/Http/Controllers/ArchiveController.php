@@ -138,32 +138,18 @@ class ArchiveController extends Controller
             'humanCapitals'
         ]);
 
-        // dd($archiveModel->recommendationLetter);
-
-        // $ard = ArchiveRequiredDocument::where('archive_id', $archiveModel->id);
-        // $archiveRecommendationLetter = RecommendationLetter::where('rl_id',$archiveModel->myRecommendationLetter->id );
-        $archiveRecommendationLetter = array();
-
-        foreach($archiveModel->myRecommendationLetter as $rl){
-            if( RecommendationLetter::where('rl_id',$rl->id ) -> first()) {
-            array_push($archiveRecommendationLetter,RecommendationLetter::where('rl_id',$rl->id ));
-            }
-        }
-        
         $academic_program = $archiveModel->announcement->academicProgram;
         $appliant = $archiveModel->appliant;
 
-        # Recolecta el resultado.
-        // foreach($archiveRecommendationLetter as $rl){
-        //     dd($rl);
-        // }
-        // dd($archiveRecommendationLetter);
+
+
+        // dd($archiveModel->recommendationLetter);
         return view('postulacion.show')
             ->with('archive', $archiveModel)
             ->with('appliant', $appliant)
-            ->with('academic_program', $academic_program);
-            // ->with('recommendation_letters', $archiveModel->myRecommendationLetter)
-            // ->with('archives_recommendation_letters', $archiveModel->recommendationLetter);
+            ->with('academic_program', $academic_program)
+            ->with('recommendation_letters', $archiveModel->myRecommendationLetter)
+            ->with('archives_recommendation_letters', $archiveModel->recommendationLetter);
     }
 
 
@@ -489,22 +475,84 @@ class ArchiveController extends Controller
 
     public function sentEmailRecommendationLetter(Request $request)
     {
+
+        $message = "El correo ya ha sido enviado";
+        $change_email = 0;
+
         $request->validate([
             'email' => ['required', 'email', 'max:255'],
             'academic_program' => ['required'],
-            'appliant' => ['required']
+            'appliant' => ['required'],
+            'letter_created' => ['required'],
+            'recommendation_letter' => ['required_if:letter_created,1'] // ya existe carta por lo tanto es requerido
         ]);
 
-        //Email enviado
-        Mail::to($request->email)->send(new SendRecommendationLetter($request->email, $request->appliant, $request->academic_program));
+        //Se busca el archivo por el USER ID
+        $archive = Archive::where('user_id', $request->appliant['id'])->first();
+        $archive->loadMissing([
+            'appliant',
+            'announcement.academicProgram',
+            'personalDocuments',
+            'recommendationLetter',
+            'myRecommendationLetter',
+            'entranceDocuments',
+            'intentionLetter',
+            'academicDegrees.requiredDocuments',
+            'appliantLanguages.requiredDocuments',
+            'appliantWorkingExperiences',
+            'scientificProductions.authors',
+            'humanCapitals'
+        ]);
+
+        //Se verifica si ya existe un registro de Carta o se necesita crear
+
+        if ($request->letter_created == 1) { //ya existe registro de carta
+
+            foreach ($archive->myRecommendationLetter as $rl) {
+                //Si son  diferentes actualizar registro
+                
+                //checa si es el mismo id
+                if($rl->id == $request->recommendation_letter['id']){
+                    if (strcmp($rl->email_evaluatr, $request->recommendation_letter['email_evaluator']) != 0) {
+                        $rl->email_evaluator = $request->email;
+                        $rl->save();
+                        $change_email = 1;
+                    }
+                }
+            }
+        } else { //no existe carta
+
+            //Crear el campo
+            $rl = MyRecommendationLetter::create([
+                'email_evaluator' => $request->email,
+                'archive_id' => $archive->id
+            ]); //Ahora se espera la respuesta del evaluador
+
+            $archive_rd = ArchiveRequiredDocument::create([
+                'archive_id' => $archive->id,
+                'required_document_id'
+            ]);
+
+            $archive_rl = RecommendationLetter::create([
+                'rl_id' => $rl->id,
+            ]);
+        }
+
+        // //Agregar campos a la tabla
+        // // No existe la carta o Existe pero se ha cambiado el correo 
+        // if ($request->letter_created == 0 || ($request->letter_created == 1 && $change_email == 1)) {
+        //     //Email enviado
+        //     Mail::to($request->email)->send(new SendRecommendationLetter($request->email, $request->appliant, $request->academic_program));
+        //     $message = 'Se ha enviado el correo';
+        // }
 
         return new JsonResponse(
-            'se logro enviar correo',
+            $message,
             200
         );
     }
 
-    
+
 
 
     /**

@@ -168,7 +168,10 @@ Route::prefix('controlescolar')->group(function () {
     //El usuario no necesita estar autentificado (puede ser cualquier persona con la liga)
     Route::prefix('recommendationLetter')->name('recommendationLetter.')->group(function () {
         # El que recive correo recibe la vista
+        
+        //Route::get('/{token}', [ArchiveController::class, 'recommendationLetter'])->name('recommendationLetter.show');
         Route::get('/{user_id}', [ArchiveController::class, 'recommendationLetter'])->name('recommendationLetter.show');
+        
         // Route::delete('/recommendationLetter/{id_rl}', [ArchiveController::class, 'deleteRecommendationLetter']) middleware(['auth', 'role:admin|control_escolar']) -> name('recommendationLetter.destroy');
 
         # Al guardar se hace la peticion para almacenar datos

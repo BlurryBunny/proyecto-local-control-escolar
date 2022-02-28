@@ -144,7 +144,8 @@
       <carta-recomendacion 
        :appliant = "appliant"
        :academic_program = "academic_program"
-
+       :recommendation_letters = "recommendation_letters"
+       :archives_recommendation_letters = "archives_recommendation_letters"
       />
     </details>
       <hr class="my-4 d-block" :style="ColorStrip">
@@ -210,11 +211,11 @@ export default {
     // Capitales humanos del postulante.
     human_capitals: Array,
 
-    // //archivos {id_archive_required_docuent, id_archive, location}
-    // archive_recommendation_letter:Array,
+    //archivos arreglo de {id_archive_required_docuent, id_archive, location}
+    archives_recommendation_letters:Array,
 
-    // //Cartas de recomendacion 
-    // recommendation_letter:Array,
+    //Cartas de recomendacion Arreglo que contiene correos
+    recommendation_letters:Array,
 
     // Postulante de la solicitud.
     appliant: Object

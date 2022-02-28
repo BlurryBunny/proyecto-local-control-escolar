@@ -223,11 +223,11 @@ export default {
           if (response.message === "Éxito") {
             axios({
               method: "post",
-              url: 'authenticate.login.post.preRegister',
+              url: route('authenticate.login.post.preRegister'),
               data: this.clave_uaslp,
               headers: {
                 Accept: "application/json",
-                "Content-Type": "multipart/form-data",
+                "Content-Type": "mu ltipart/form-data",
               },
             })
               .then((response) => {
