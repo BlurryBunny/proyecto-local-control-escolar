@@ -31,7 +31,7 @@ const app = new Vue({
     },
     data: {
         idArchive: idArchive,
-        archiveRl: archiveRl,
+        recommendation_letter: recommendation_letter,
         appliant: appliant,
         announcement: announcement,
         parameters: parameters,
@@ -135,6 +135,8 @@ const app = new Vue({
             axios.post('controlescolar/recommendationLetter/addRecommendationLetter', {
                 recommendation_letter_id: this.archiveRl.id, 
                 archive_id: this.idArchive,
+                token:this.token,
+                answer: 1,
                 email_evaluator: this.archiveRl.email_evaluator,
                 time_to_meet: this.archiveRl.time_to_meet,
                 how_meet: this.archiveRl.how_meet,

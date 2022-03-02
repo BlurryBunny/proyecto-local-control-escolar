@@ -1,13 +1,12 @@
 <script> 
-    const authUser = @json($user);
-    const academicPrograms = @json($academic_programs);
+    const user_id = @json($user_id);
     </script>
     
     @extends('layouts.app')
     
     @section('main')
     
-    <p>no existe aplicante</p>
+    <p>no existe aplicante con el id {{$user_id}}</p>
     
     @endsection
     

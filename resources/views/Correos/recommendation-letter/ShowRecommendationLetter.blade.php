@@ -7,7 +7,7 @@ Le escribimos de nuestro programa de "{{$academic_program['name']}}", debido a q
 
 Usted podrá otorgar su carta de recomendación
 
-@component('mail::button', ['url' => route('recommendationLetter.recommendationLetter.show',(int)$appliant['id']) ] )
+@component('mail::button', ['url' => route('recommendationLetter.recommendationLetter.show', $my_token) ] )
 dando clic aquí
 @endcomponent
 

@@ -37841,7 +37841,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
   },
   data: (_data = {
     idArchive: idArchive,
-    archiveRl: archiveRl,
+    recommendation_letter: recommendation_letter,
     appliant: appliant,
     announcement: announcement,
     parameters: parameters,
@@ -37918,6 +37918,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('controlescolar/recommendationLetter/addRecommendationLetter', {
         recommendation_letter_id: this.archiveRl.id,
         archive_id: this.idArchive,
+        token: this.token,
+        answer: 1,
         email_evaluator: this.archiveRl.email_evaluator,
         time_to_meet: this.archiveRl.time_to_meet,
         how_meet: this.archiveRl.how_meet,

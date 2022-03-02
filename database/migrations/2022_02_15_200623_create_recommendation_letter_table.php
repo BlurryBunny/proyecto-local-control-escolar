@@ -61,21 +61,28 @@ class CreateRecommendationLetterTable extends Migration
 
         >authorization (lo recibe para poder guardar)
         */
-            //campos de carta de recomendacion
+        //campos de carta de recomendacion
         Schema::create('recommendation_letter', function (Blueprint $table) {
             $table->id(); //llave primaria
-                      
+
             //user letter relacion
             //a quien se dirige la carta
             $table->foreignId('archive_id')
-            ->constrained('archives')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+                ->constrained('archives')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             //relation with the candidate (solo email)
 
+            //Validation to answer the letter
+            
             //Quien responde la carta
             $table->string('email_evaluator')->nullable();
+
+            //token con el cual se manda por la liga
+            $table->string('token')->nullable();
+            $table->bigInteger('answer')->nullable();
+
 
 
             $table->string('time_to_meet')->nullable();
@@ -87,7 +94,7 @@ class CreateRecommendationLetterTable extends Migration
             //ANALISIS DE CANDIDATO
             $table->string('special_skills')->nullable();
             $table->string('why_recommendation')->nullable();
-                
+
             # Estados de control
             $table->softDeletes();
             $table->timestamps();
@@ -100,21 +107,23 @@ class CreateRecommendationLetterTable extends Migration
         //relacion de documento necesario en pdf para postulante
         Schema::create('archive_recommendation_letter', function (Blueprint $table) {
 
-               //recommendation letter relacion
+            //recommendation letter relacion
             $table->foreignId('rl_id')
-            ->constrained('recommendation_letter')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+                ->constrained('recommendation_letter')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
-                //relacion hacia documentos requeridos
+            //relacion hacia documentos requeridos
             $table->foreignId('required_document_id')
                 ->constrained('archive_required_document')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->string('location')->nullable();
-
-            $table->primary(['rl_id', 'required_document_id'], 'pk_doc_rec_lett'); //llave de pntaje a parametro definido
+            # Estados de control
+            $table->softDeletes();
+            $table->timestamps();
+            // $table->primary(['rl_id', 'required_document_id'], 'pk_doc_rec_lett'); //llave de pntaje a parametro definido
         });
 
         //Parametros de analisis de candidato
@@ -144,24 +153,27 @@ class CreateRecommendationLetterTable extends Migration
                 ->constrained('parameters_recommendation_letter')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-                
-                
-                $table->string('score')->nullable();
+
+
+            $table->string('score')->nullable();
             //se ponen como llaves primarias 
             $table->primary(['rl_id', 'parameter_id'], 'pk_score_par'); //llave de pntaje a parametro definido
+            # Estados de control
+            $table->softDeletes();
+            $table->timestamps();
         });
 
         //Parametros de analisis de candidato Personalizads
         Schema::create('custom_parameters_rl', function (Blueprint $table) {
             //llave primaria
             $table->id();
-            
+
             //recommendation letter relacion
             $table->foreignId('rl_id')
                 ->constrained('recommendation_letter')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-                
+
             $table->string('text')->nullable();
             $table->string('score')->nullable();
 
@@ -169,7 +181,7 @@ class CreateRecommendationLetterTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        
+
         //scores en 
         // Schema::create('scores_rl', function (Blueprint $table) {
         //     $table->id(); //clave primaria
@@ -185,22 +197,22 @@ class CreateRecommendationLetterTable extends Migration
 
         //Insertar los parametros y modificar desde aqui
         DB::table('parameters_recommendation_letter')->insert([
-            ['text'=>'Conocimiento y destrezas en su campo'],
-            ['text'=>'Dedicación al trabajo'],
-            ['text'=>'Imaginación y creatividad'],
-            ['text'=>'Habilidad para comunicarse'],
-            ['text'=>'Rendimiento'],
-            ['text'=>'Perseverancia'],
-            ['text'=>'Capacidad de convivencia con otras personas'],
-            ['text'=>'Disciplina de estudio'],
-            ['text'=>'Habilidad de investigación'],
-            ['text'=>'Habilidades de comunicación oral y escrita'],
-            ['text'=>'Hábitos de trabajo'],
-            ['text'=>'Organización'],
-            ['text'=>'Planificación'],
-            ['text'=>'Oportunidad'],
-            ['text'=>'Colaboración en equipo'],
-            ['text'=>'Iniciativa propia'],
+            ['text' => 'Conocimiento y destrezas en su campo'],
+            ['text' => 'Dedicación al trabajo'],
+            ['text' => 'Imaginación y creatividad'],
+            ['text' => 'Habilidad para comunicarse'],
+            ['text' => 'Rendimiento'],
+            ['text' => 'Perseverancia'],
+            ['text' => 'Capacidad de convivencia con otras personas'],
+            ['text' => 'Disciplina de estudio'],
+            ['text' => 'Habilidad de investigación'],
+            ['text' => 'Habilidades de comunicación oral y escrita'],
+            ['text' => 'Hábitos de trabajo'],
+            ['text' => 'Organización'],
+            ['text' => 'Planificación'],
+            ['text' => 'Oportunidad'],
+            ['text' => 'Colaboración en equipo'],
+            ['text' => 'Iniciativa propia'],
         ]);
     }
 
@@ -212,14 +224,11 @@ class CreateRecommendationLetterTable extends Migration
     public function down()
     {
         //carta de recomendacion
-        
+
         Schema::dropIfExists('archive_recommendation_letter'); //documento en pdf
         Schema::dropIfExists('score_paremeters_recommendation_letter');     //puntaje de cada parametro por carta de recomendacion
         Schema::dropIfExists('custom_parameters_recommendation_letter');    //parametros personalizados por usuario
         Schema::dropIfExists('parameters_recommendation_letter');           //parametros fijos a hacer referencia
         Schema::dropIfExists('recommendation_letter'); //datos crudos
     }
-
-
-   
 }

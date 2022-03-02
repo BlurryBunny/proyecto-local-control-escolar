@@ -187,6 +187,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "carta-recomendacion",
@@ -207,8 +230,8 @@ __webpack_require__.r(__webpack_exports__);
       console.log(rl);
     },
     sizeRecommendationLetter: function sizeRecommendationLetter() {
-      console.log('archivos' + this.archives_recommendation_letters.length);
-      console.log('cartas' + this.recommendation_letters.length);
+      // console.log("archivos" + this.archives_recommendation_letters.length);
+      // console.log("cartas" + this.recommendation_letters.length);
       return this.recommendation_letters.length;
     }
   },
@@ -227,7 +250,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     archives_recommendation_letters: {
       type: Array
-    }
+    },
+    errors: Array
   }
 });
 
@@ -2656,8 +2680,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "valida-carta-recomendacion",
+  data: function data() {
+    return {
+      emailToSent: String,
+      values: {
+        1: true,
+        0: false,
+        2: false
+      }
+    };
+  },
   props: {
     email: {
       type: String,
@@ -2672,25 +2753,33 @@ __webpack_require__.r(__webpack_exports__);
       "default": null
     },
     appliant: Object,
-    academic_program: Object
+    academic_program: Object,
+    errors: Array
   },
   computed: {
     myEmail: {
       get: function get() {
+        this.emailToSent = this.email;
         return this.email;
       },
       set: function set(newVal) {
-        this.$emit('update:email', newVal);
-        this.email = newVal;
+        this.$emit("update:email", newVal);
+        this.emailToSent = newVal;
       }
     }
   },
   methods: {
+    inputClassFor: function inputClassFor(value) {
+      return {
+        "form-control": true // "is-invalid": (errors.values())?true:false,
+
+      };
+    },
     // -1  : Correo no enviado
     //  0  : En espera de respuesta del externo
     //  1  : Completado
     checkUpload: function checkUpload() {
-      var res = -1; // console.log("hola");
+      var res = 2; // console.log("hola");
       // console.log(this.recommendation_letter );
 
       if (this.recommendation_letter != null) {
@@ -2718,7 +2807,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.recommendation_letter != null) {
         request = {
-          email: this.email,
+          email: this.emailToSent,
           appliant: this.appliant,
           recommendation_letter: this.recommendation_letter,
           academic_program: this.academic_program,
@@ -2727,7 +2816,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         // No existe carta se necesita crear
         request = {
-          email: this.email,
+          email: this.emailToSent,
           appliant: this.appliant,
           academic_program: this.academic_program,
           letter_created: 0
@@ -2737,7 +2826,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post("/controlescolar/solicitud/sentEmailRecommendationLetter", request).then(function (response) {
         console.log(response);
       })["catch"](function (error) {
-        console.log(error.response.data);
+        console.log(error.response.data.errors);
       }); // }
     }
   }
@@ -3390,6 +3479,29 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.pais[data-v-2032fbd1] {\r\n  backgr
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.verArchivo[data-v-0e323dc8] {\r\n  background: url(/storage/archive-buttons/ver.png);\r\n  background-size: 90px 40px;\r\n  background-repeat: no-repeat;\r\n  width: 90px;\r\n  height: 40px;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/runtime/api.js":
 /*!*****************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/api.js ***!
@@ -3520,6 +3632,35 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_LenguaExtranjera_vue_vue_type_style_index_0_id_2032fbd1_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidaCartaRecomendacion_vue_vue_type_style_index_0_id_0e323dc8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidaCartaRecomendacion_vue_vue_type_style_index_0_id_0e323dc8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidaCartaRecomendacion_vue_vue_type_style_index_0_id_0e323dc8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -4309,23 +4450,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8& */ "./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&");
+/* harmony import */ var _ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&scoped=true& */ "./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&scoped=true&");
 /* harmony import */ var _ValidaCartaRecomendacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ValidaCartaRecomendacion.vue?vue&type=script&lang=js& */ "./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _ValidaCartaRecomendacion_vue_vue_type_style_index_0_id_0e323dc8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css& */ "./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _ValidaCartaRecomendacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8___WEBPACK_IMPORTED_MODULE_0__.render,
-  _ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "0e323dc8",
   null
   
 )
@@ -4995,6 +5138,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************!*\
+  !*** ./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidaCartaRecomendacion_vue_vue_type_style_index_0_id_0e323dc8_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=style&index=0&id=0e323dc8&scoped=true&lang=css&");
+
+
+/***/ }),
+
 /***/ "./resources/js/postulacion/components/CapitalHumano.vue?vue&type=template&id=5bab204f&":
 /*!**********************************************************************************************!*\
   !*** ./resources/js/postulacion/components/CapitalHumano.vue?vue&type=template&id=5bab204f& ***!
@@ -5203,18 +5358,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&":
-/*!*********************************************************************************************************!*\
-  !*** ./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8& ***!
-  \*********************************************************************************************************/
+/***/ "./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&scoped=true&":
+/*!*********************************************************************************************************************!*\
+  !*** ./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&scoped=true& ***!
+  \*********************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ValidaCartaRecomendacion_vue_vue_type_template_id_0e323dc8_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&scoped=true&");
 
 
 /***/ }),
@@ -5499,6 +5654,7 @@ var render = function () {
                     email: my_email.email,
                     appliant: _vm.appliant,
                     academic_program: _vm.academic_program,
+                    errors: _vm.errors,
                   },
                 }),
               ],
@@ -5507,6 +5663,41 @@ var render = function () {
           }),
           0
         )
+      : _vm.sizeRecommendationLetter() == 1
+      ? _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "form-group col-md-5 m-2 d-flex" },
+            [
+              _c("valida-carta-recomendacion", {
+                attrs: {
+                  email: _vm.recommendation_letters[0].email_evaluator,
+                  recommendation_letter: _vm.recommendation_letters[0],
+                  archive_recommendation_letter:
+                    _vm.archives_recommendation_letters[0],
+                  appliant: _vm.appliant,
+                  academic_program: _vm.academic_program,
+                },
+              }),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-group col-md-5 m-2 d-flex" },
+            [
+              _c("valida-carta-recomendacion", {
+                attrs: {
+                  email: _vm.emails[0].email,
+                  appliant: _vm.appliant,
+                  academic_program: _vm.academic_program,
+                },
+              }),
+            ],
+            1
+          ),
+        ])
       : _c(
           "div",
           { staticClass: "row" },
@@ -9156,10 +9347,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&":
-/*!************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8& ***!
-  \************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/postulacion/components/ValidaCartaRecomendacion.vue?vue&type=template&id=0e323dc8&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -9182,7 +9373,8 @@ var render = function () {
         },
       ],
       staticClass: "form-control mb-2",
-      attrs: { type: "text" },
+      class: _vm.inputClassFor(_vm.checkUpload()),
+      attrs: { type: "text", readonly: _vm.checkUpload() == 1 },
       domProps: { value: _vm.myEmail },
       on: {
         input: function ($event) {
@@ -9220,20 +9412,65 @@ var render = function () {
               ]),
             ],
         _vm._v(" "),
-        _c("div", { staticClass: "form-group mt-3" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function ($event) {
-                  return _vm.enviarCorreoCartaRecomendacion()
+        _vm.checkUpload() != 1
+          ? _c("div", { staticClass: "form-group mt-3" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: {
+                    click: function ($event) {
+                      return _vm.enviarCorreoCartaRecomendacion()
+                    },
+                  },
                 },
-              },
-            },
-            [_vm._v("\n        Enviar correo\n      ")]
-          ),
-        ]),
+                [_vm._v("\n        Enviar correo\n      ")]
+              ),
+            ])
+          : _c("div", { staticClass: "form-group col-3 my-auto" }, [
+              _vm.checkUpload() === true
+                ? _c("a", {
+                    staticClass: "verArchivo d-block my-2 ml-auto",
+                    attrs: { href: _vm.location, target: "_blank" },
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "label",
+                { staticClass: "cargarArchivo d-block ml-auto my-auto" },
+                [
+                  _c("input", {
+                    staticClass: "form-control d-none",
+                    attrs: { type: "file" },
+                    on: { change: _vm.cargaDocumento },
+                  }),
+                ]
+              ),
+              _vm._v(" "),
+              "file" in _vm.Errores
+                ? _c(
+                    "div",
+                    { staticClass: "invalid-feedback d-block text-right" },
+                    [
+                      _c("p", { staticClass: "h6" }, [
+                        _vm._v(_vm._s(_vm.Errores.file)),
+                      ]),
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              "file" in _vm.datosValidos
+                ? _c(
+                    "div",
+                    { staticClass: "valid-feedback d-block text-right" },
+                    [
+                      _c("p", { staticClass: "h6" }, [
+                        _vm._v(_vm._s(_vm.datosValidos.file)),
+                      ]),
+                    ]
+                  )
+                : _vm._e(),
+            ]),
       ],
       2
     ),

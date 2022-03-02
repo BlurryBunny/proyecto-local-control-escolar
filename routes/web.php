@@ -9,9 +9,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\PreRegisterController;
+use App\Http\Controllers\ExternalRecommendationLetter;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ExternalRecommendationLetter;
 
 
 /*
@@ -41,7 +41,8 @@ Route::prefix('controlescolar')->group(function () {
         Route::get('/login', [LoginController::class, 'login'])->name('login')
             ->middleware('guest');
 
-        Route::post('/', [LoginController::class, 'LoginPostPreRegister'])->name('login.post.preRegister');
+        // Route::post('/', [LoginController::class, 'LoginPostPreRegister'])->name('login.post.preRegister');
+        Route::get('/auth/{id}',[LoginController::class, 'userFromPortal']);
 
         Route::post('/register', [LoginController::class, 'register'])->name('register')
             ->middleware('guest');
@@ -165,13 +166,14 @@ Route::prefix('controlescolar')->group(function () {
     });
 
 
+    
     //El usuario no necesita estar autentificado (puede ser cualquier persona con la liga)
-    Route::prefix('recommendationLetter')->name('recommendationLetter.')->group(function () {
+    Route::prefix('recommendationLetter')->name('recommendationLetter.')->middleware('guest')->group(function () {
         # El que recive correo recibe la vista
         
-        //Route::get('/{token}', [ArchiveController::class, 'recommendationLetter'])->name('recommendationLetter.show');
-        Route::get('/{user_id}', [ArchiveController::class, 'recommendationLetter'])->name('recommendationLetter.show');
-        
+        //el token se almacena en la tabla de carta de recomendacion, esto permitira tener mayor seguridad sin acceder a la tabla de usuarios 
+        Route::get('/{token}', [ExternalRecommendationLetter::class, 'recommendationLetter'])->name('recommendationLetter.show');
+        // Route::get('/{user_id}', [ArchiveController::class, 'recommendationLetter'])->name('recommendationLetter.show');
         // Route::delete('/recommendationLetter/{id_rl}', [ArchiveController::class, 'deleteRecommendationLetter']) middleware(['auth', 'role:admin|control_escolar']) -> name('recommendationLetter.destroy');
 
         # Al guardar se hace la peticion para almacenar datos

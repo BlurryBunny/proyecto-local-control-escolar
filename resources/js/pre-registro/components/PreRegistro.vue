@@ -70,10 +70,14 @@
               >
               </datos-personales>
             </div>
+
+            <button @click="a()">Hola</button>
           </form>
         </div>
       </div>
     </div>
+
+    
   </div>
 </template>
 
@@ -147,6 +151,9 @@ export default {
   },
 
   methods: {
+    a(){
+ window.location.href = "/controlescolar/home";
+    },
     uaslpUserUpdated(user) {
       this.facultad = user.dependency;
       this.directorio_activo = user.DirectorioActivo;
@@ -176,6 +183,7 @@ export default {
     },
 
     registraUsuario() {
+     
       this.errores = {};
       var formData = new FormData();
       formData.append("announcement_id", this.academic_program.id);
@@ -221,22 +229,7 @@ export default {
       })
         .then((response) => {
           if (response.message === "Éxito") {
-            axios({
-              method: "post",
-              url: route('authenticate.login.post.preRegister'),
-              data: this.clave_uaslp,
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "mu ltipart/form-data",
-              },
-            })
-              .then((response) => {
-                console.log(response.data);
-              })
-              .catch((error) => {
-                //alert(error.response.data);
-                console.log(error.response.data.errors);
-              });
+            window.location.href = this.url + "/controlescolar/home";
           }
         })
         .catch((error) => {

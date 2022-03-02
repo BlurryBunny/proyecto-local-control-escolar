@@ -125,12 +125,10 @@ class LoginController extends Controller
             return redirect(route('pre-registro.index'));
         }else
         {
-
             # Determina si se requiere solicitar autorización.
             ///*
             if (!$this->loginService->isCallbackRequest($request))
                 return $this->loginService->requestAuthorization($request);
-            //*/
 
             # Busca al usuario en el sistema central.
             $user_response = $this->loginService->loginGet('api/users/whoami', $request->code);
@@ -188,18 +186,15 @@ class LoginController extends Controller
     }
         
     //login depues del preregistro ->  se manda a llamar desde POST y recibe id_user
-    public function LoginPostPreRegister(Request $request, $user)
+    public function userFromPortal(Request $request, $user)
     {
-        # Determina si se requiere solicitar autorización.
-        Auth::loginUsingId($user);
-        
-        /** @var User */
-        $user = Auth::user();
-        $user->load('roles');
-        $this->getUsers($request, $user);
+       // verificar si existe
+       if(User::find([$user, 'students'])){
+           $this->testLogin($request,$user);
+       }
+       
+       return redirect(route('pre-registro.index'));
 
-        # Redirecciona a la página principal.
-        return redirect()->route('authenticate.home');
     }
 
 

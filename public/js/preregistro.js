@@ -924,6 +924,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -986,6 +990,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    a: function a() {
+      window.location.href = "/controlescolar/home";
+    },
     uaslpUserUpdated: function uaslpUserUpdated(user) {
       this.facultad = user.dependency;
       this.directorio_activo = user.DirectorioActivo;
@@ -1060,20 +1067,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         if (response.message === "Éxito") {
-          axios({
-            method: "post",
-            url: route('authenticate.login.post.preRegister'),
-            data: _this.clave_uaslp,
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "mu ltipart/form-data"
-            }
-          }).then(function (response) {
-            console.log(response.data);
-          })["catch"](function (error) {
-            //alert(error.response.data);
-            console.log(error.response.data.errors);
-          });
+          window.location.href = _this.url + "/controlescolar/home";
         }
       })["catch"](function (error) {
         //alert(error.response.data);
@@ -3101,6 +3095,18 @@ var render = function () {
                         1
                       )
                     : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      on: {
+                        click: function ($event) {
+                          return _vm.a()
+                        },
+                      },
+                    },
+                    [_vm._v("Hola")]
+                  ),
                 ],
                 1
               ),
