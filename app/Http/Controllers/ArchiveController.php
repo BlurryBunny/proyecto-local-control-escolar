@@ -154,6 +154,95 @@ class ArchiveController extends Controller
             ->with('archives_recommendation_letters', $archiveModel->recommendationLetter);
     }
 
+        /**
+     * Envia la vista de carta de recomendación con los datos requeridos
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    //aqui solo recibira una cadena 
+    //public function recommendationLetter(Request $request)
+    /*
+    request tendra
+
+    token
+    email evaluator
+    answer (boleano numerico)
+    */
+    public function recommendationLetter(Request $request, $token)
+    {
+
+        // #Busqueda de Carta de recomendacion y archivo
+        // try {
+        //     //Busqueda de carta con token y correo       
+        // } catch (\Exception $e) {
+        //     return view('postulacion.error-noAppliant')
+        //         ->with('user_id', $request->token);
+        // }
+
+        //prueba 
+        return  view('postulacion.error-lettersSent')
+        ->with('user_id', 298428);
+
+        $rl = MyRecommendationLetter::where(
+            'token', $token
+        );
+
+        // return new JsonResponse(
+        //     $rl,
+        //     200
+        // );
+
+        // Se extrae el archivo de postulacion
+        $archive = Archive::where('id', $rl->archive_id)->first();
+
+        #Carga de modelos en archivo
+        $archive->loadMissing([
+            'appliant',
+            'announcement.academicProgram',
+            'personalDocuments',
+            'recommendationLetter',
+            'myRecommendationLetter',
+            'entranceDocuments',
+            'intentionLetter',
+            'academicDegrees.requiredDocuments',
+            'appliantLanguages.requiredDocuments',
+            'appliantWorkingExperiences',
+            'scientificProductions.authors',
+            'humanCapitals'
+        ]);
+
+
+        #Verificacion de carta no contestada
+        if ($rl->answer >= 1) {
+            return view('postulacion.error-lettersSent')
+                ->with($archive->appliant->id);
+        }
+
+        #Extraccion de variables necesarias
+        try {
+            // Extrae TODOS LOS PARAMETROS A EVALUAR
+            $parameters = Parameter::all();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        // Cartas de recomendacion en expediente
+        $num_recommendation_letter_count = $archive->archiveRequiredDocuments()
+            ->whereNotNull('location')
+            ->whereIsRecommendationLetter()
+            ->count();
+        $announcement = $archive->announcement;
+        $appliant = $archive->appliant;
+        $academic_program = $archive->announcement->academicProgram;
+
+        //Enviar los datos necesarios 
+        return view('postulacion.recommendation-letter')
+            ->with('recommendation_letter', $rl)
+            ->with('appliant', $appliant)                   //usuario 
+            ->with('announcement', $announcement)
+            ->with('parameters', $parameters); //programa academico
+    }
+
 
 
     /**
@@ -525,6 +614,8 @@ class ArchiveController extends Controller
                 $my_token = $request->recommendation_letter['token'];
                  //return json response
             }
+
+         
 
             try {
                 //Email enviado

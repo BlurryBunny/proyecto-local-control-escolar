@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Resources\RecommendationLetter;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -52,7 +52,7 @@ class ExternalRecommendationLetter extends Controller
             (email de evaluador)
             (id carta recomendacion)
         */
-
+        
         # Se busca expediente, para asignar nombre
         $archive = Archive::find($request->archive_id);
         $archive->loadMissing([
@@ -202,27 +202,21 @@ class ExternalRecommendationLetter extends Controller
     public function recommendationLetter(Request $request, $token)
     {
 
-        // #Busqueda de Carta de recomendacion y archivo
-        // try {
-        //     //Busqueda de carta con token y correo       
-        // } catch (\Exception $e) {
-        //     return view('postulacion.error-noAppliant')
-        //         ->with('user_id', $request->token);
-        // }
-
-        //prueba 
-
-        $rl = MyRecommendationLetter::where(
-            'token', $token
-        );
-
-        // return new JsonResponse(
-        //     $rl,
-        //     200
-        // );
+        #Busqueda de Carta de recomendacion y archivo
+        try {
+            //Busqueda de carta con token y correo 
+            $rl = MyRecommendationLetter::where(
+                'token', $token
+            );
+             
+        } catch (\Exception $e) {
+            return view('postulacion.error-noAppliant')
+                ->with('user_id', $request->token);
+        }
 
         // Se extrae el archivo de postulacion
         $archive = Archive::where('id', $rl->archive_id)->first();
+        
 
         #Carga de modelos en archivo
         $archive->loadMissing([
@@ -266,7 +260,7 @@ class ExternalRecommendationLetter extends Controller
 
         //Enviar los datos necesarios 
         return view('postulacion.recommendation-letter')
-            ->with('recommendation_letter', $archive->myRecommendationLetter)
+            ->with('recommendation_letter', $rl)
             ->with('appliant', $appliant)                   //usuario 
             ->with('announcement', $announcement)
             ->with('parameters', $parameters); //programa academico

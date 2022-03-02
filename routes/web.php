@@ -168,16 +168,16 @@ Route::prefix('controlescolar')->group(function () {
 
     
     //El usuario no necesita estar autentificado (puede ser cualquier persona con la liga)
-    Route::prefix('recommendationLetter')->name('recommendationLetter.')->middleware('guest')->group(function () {
+    Route::prefix('recommendationLetter')->name('recommendationLetter.')->group(function () {
         # El que recive correo recibe la vista
         
         //el token se almacena en la tabla de carta de recomendacion, esto permitira tener mayor seguridad sin acceder a la tabla de usuarios 
-        Route::get('/{token}', [ExternalRecommendationLetter::class, 'recommendationLetter'])->name('recommendationLetter.show');
+        Route::get('/show/{token}', [ExternalRecommendationLetter::class, 'recommendationLetter'])->name('show');
         // Route::get('/{user_id}', [ArchiveController::class, 'recommendationLetter'])->name('recommendationLetter.show');
         // Route::delete('/recommendationLetter/{id_rl}', [ArchiveController::class, 'deleteRecommendationLetter']) middleware(['auth', 'role:admin|control_escolar']) -> name('recommendationLetter.destroy');
 
         # Al guardar se hace la peticion para almacenar datos
-        Route::post('/addRecommendationLetter', [ExternalRecommendationLetter::class, 'addRecommendationLetter']);
+        Route::post('/addRecommendationLetter', [ExternalRecommendationLetter::class, 'addRecommendationLetter'])->name('store');
     });
 
     //investigar para control de rutas lo siguiente
